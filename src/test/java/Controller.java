@@ -51,7 +51,7 @@ public class Controller {
 
         MockFilterChain chain = new MockFilterChain();
         MockRequest userRequest = new MockRequest(cfg.getServletContext(), "Get", "/");
-        userRequest.addParam("user.name", "谢中生     ");
+        userRequest.addParam("user.name", "谢中生");
         filter.doFilter(userRequest, new MockResponse(), chain);
         filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/blog/3"), new MockResponse(), chain);
         filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/blog/3/sub/4"), new MockResponse(), chain);
