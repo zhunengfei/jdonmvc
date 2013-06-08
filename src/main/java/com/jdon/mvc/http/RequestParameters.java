@@ -13,6 +13,23 @@ class RequestParameters {
         }
     }
 
+    public void trimAllParamValue() {
+        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+            Object result;
+            Object value = entry.getValue();
+            if (value.getClass().isArray()) {
+                String[] arrayValue = (String[]) value;
+                for (int i = 0; i < arrayValue.length; i++) {
+                    arrayValue[i] = arrayValue[i].trim();
+                }
+                result = arrayValue;
+            } else {
+                result = ((String) value).trim();
+            }
+            parameters.put(entry.getKey(), result);
+        }
+    }
+
     public void addValueToArray(String name, String value) {
         if (parameters.containsKey(name)) {
             Object currentValue = parameters.get(name);

@@ -18,15 +18,15 @@ public class WebRequest extends HttpServletRequestWrapper {
 
     private HttpServletRequest request;
 
+
     public WebRequest(HttpServletRequest request, FrameWorkContext fc) {
         super(request);
         this.request = request;
         this.parameters = new RequestParameters(request.getParameterMap());
 
-        if (fc.getConfigItem(TRIM_FORM) != null) {
-            //trim from
+        if (fc.getConfigItem(TRIM_FORM) != null && Boolean.valueOf(fc.getConfigItem(TRIM_FORM))) {
+            parameters.trimAllParamValue();
         }
-
     }
 
     public void setParameter(String name, String value) {
