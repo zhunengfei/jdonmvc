@@ -100,7 +100,7 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public String getRealPath(String path) {
-        return "/home/asion/jdonmvc/jdonmvc/target/test-classes";
+        return "/home/asion/jdonmvc/target/test-classes";
     }
 
     @Override
