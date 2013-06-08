@@ -26,7 +26,7 @@ public class Controller {
 
     @Path("/")
     public Represent index(User user) {
-        return new Html("/hello.vm", "user", user);
+        return new Html("hello", "user", user);
     }
 
 

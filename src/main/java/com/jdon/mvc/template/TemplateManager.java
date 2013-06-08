@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import java.lang.reflect.InvocationTargetException;
 
 public class TemplateManager {
+
     private final static Log LOG = LogFactory.getLog(TemplateManager.class);
 
     private TemplateFactory templateFactoryLocator;

@@ -91,7 +91,7 @@ public class FormFileFlowUnit implements FlowUnit{
 					}
 				}
 				else {
-					LOG.info("A file field was empy: " + item.getFieldName());
+					LOG.info("A file field was empty: " + item.getFieldName());
 				}
 			}
 		}
