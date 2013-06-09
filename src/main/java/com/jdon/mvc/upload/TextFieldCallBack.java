@@ -1,7 +1,7 @@
 package com.jdon.mvc.upload;
 
 /**
- * 上传解析到文本域的回掉
+ * 上传解析到文本域的回调
  * User: Asion
  * Date: 13-6-9
  * Time: 下午4:58
