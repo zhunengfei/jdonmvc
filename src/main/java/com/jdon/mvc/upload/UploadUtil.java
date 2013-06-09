@@ -54,6 +54,9 @@ public class UploadUtil {
      * @return
      */
     public static boolean isMultiPart() {
+        if (!"post".equals(Env.req().getMethod().toLowerCase())) {
+            return false;
+        }
         String[] content = Env.req().getHeader(_HEADER_CONTENT_TYPE).split(";");
         if (content.length > 1) {
             return _ENCTYPE.equalsIgnoreCase(content[0]);
@@ -71,11 +74,11 @@ public class UploadUtil {
         String[] content = Env.req().getHeader(_HEADER_CONTENT_TYPE).split(";");
         if (content.length > 1) {
             if (!_ENCTYPE.equalsIgnoreCase(content[0])) {
-                throw new FileUploadParserException();
+                throw new MultipartException();
             }
             return (_BOUNDARY_PREFIX + content[1].split("=")[1]).getBytes();
         } else {
-            throw new FileUploadParserException();
+            throw new MultipartException();
         }
     }
 
