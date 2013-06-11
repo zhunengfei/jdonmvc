@@ -88,7 +88,7 @@ public class DefaultConverterManager implements ConverterManager {
 
     private Object convert(Class<?> clazz, Object value, Map<String, Object> map) {
         if (converterTypes.get(clazz) != null) {
-            TypeConverter<?> c = (TypeConverter<?>) converterTypes.get(clazz);
+            TypeConverter<?> c = converterTypes.get(clazz);
             return c.convert(value);
         } else {
             return convertObject(clazz, map);
@@ -131,11 +131,4 @@ public class DefaultConverterManager implements ConverterManager {
         }
         return instance;
     }
-
-    public Object convertPrimitive(Class<?> clazz, String s) {
-        TypeConverter<?> c = converterTypes.get(clazz);
-        return c.convert(s);
-    }
-
-
 }
