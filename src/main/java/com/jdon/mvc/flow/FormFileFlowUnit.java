@@ -36,7 +36,7 @@ public class FormFileFlowUnit implements FlowUnit {
         });
 
         for (FormFile formFile : fileList) {
-            Env.req().addFormFile(formFile.getFileName(), formFile);
+            Env.req().addFormFile(formFile.getName(), formFile);
         }
     }
 }
