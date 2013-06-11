@@ -1,4 +1,4 @@
-package com.jdon.mvc.plugin.page;
+package com.jdon.mvc.util;
 
 /**
  * User: Asion

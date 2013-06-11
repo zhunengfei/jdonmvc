@@ -1,4 +1,4 @@
-package com.jdon.mvc.plugin.cryption;
+package com.jdon.mvc.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;

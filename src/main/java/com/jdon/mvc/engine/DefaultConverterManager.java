@@ -13,6 +13,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,12 +75,22 @@ public class DefaultConverterManager implements ConverterManager {
             Class<?> originalType = methodParameter.getType();// 形参类型
             Object value = map.get(methodParameter.getName());// 形参值
 
-            // 数组的class判断比较特殊，所以就特殊处理
-            if (originalType.isArray())
+            // 数组
+            if (originalType.isArray()) {
                 args[methodParameter.getPosition()] = convertArray(originalType, value, map);
-            else
+            }
+
+            //集合
+            else if (Collection.class.isAssignableFrom(originalType)) {
+
+            }
+
+            //单个对象，原生或者包装，或者用户自定义类
+            else {
                 args[methodParameter.getPosition()] = convert(
                         originalType, value, map);
+            }
+
 
         }
 
