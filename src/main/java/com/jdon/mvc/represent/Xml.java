@@ -32,7 +32,6 @@ public class Xml implements Represent {
         Env.res().setContentType(TYPE);
         try {
             JAXBContext context = JAXBContext.newInstance(type);
-            //下面代码演示将对象转变为xml
             Marshaller marshaller = context.createMarshaller();
 
             PrintWriter pw = Env.res().getWriter();
