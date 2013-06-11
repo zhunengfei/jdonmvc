@@ -4,6 +4,7 @@ import com.jdon.mvc.util.MethodParanameExtractor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +31,10 @@ public class Handler {
         this.method = method;
 
         Class<?>[] types = method.getParameterTypes();
+        Type[] genericParameterTypes = method.getGenericParameterTypes();
         String[] parameterNames = infoProvider.lookupParameterNames(method);
         for (int i = 0; i < types.length; i++) {
-            MethodParameter param = new MethodParameter(types[i],
+            MethodParameter param = new MethodParameter(types[i],genericParameterTypes[i],
                     parameterNames[i], i);
             methodParameters.add(param);
         }

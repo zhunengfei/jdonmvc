@@ -12,6 +12,7 @@ import moc.MockResponse;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * User: Asion
@@ -42,6 +43,11 @@ public class Controller {
         System.out.println(id + sub);
     }
 
+    @Path("/list")
+    public void list(List<String> list) {
+        System.out.println(list);
+    }
+
 
     public static void main(String[] args) throws ServletException, IOException {
 
@@ -55,6 +61,10 @@ public class Controller {
         filter.doFilter(userRequest, new MockResponse(), chain);
         filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/blog/3"), new MockResponse(), chain);
         filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/blog/3/sub/4"), new MockResponse(), chain);
+
+        MockRequest listRequest = new MockRequest(cfg.getServletContext(), "Get", "/list");
+        listRequest.addMultiParam("list",new String[]{"111","222"});
+        filter.doFilter(listRequest, new MockResponse(), chain);
         filter.destroy();
 
     }

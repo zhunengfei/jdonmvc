@@ -34,6 +34,10 @@ public class MockRequest implements HttpServletRequest {
         this.locales.add(Locale.ENGLISH);
     }
 
+    public void addMultiParam(String key, String[] value) {
+        this.param.put(key, value);
+    }
+
     public void addParam(String key, String value) {
         this.param.put(key, value);
     }

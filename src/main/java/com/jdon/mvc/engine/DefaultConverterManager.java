@@ -5,12 +5,15 @@ import com.jdon.mvc.core.ConverterManager;
 import com.jdon.mvc.http.FormFile;
 import com.jdon.mvc.rs.java.MethodParameter;
 import com.jdon.mvc.rs.java.SettingException;
+import com.jdon.mvc.util.ReflectionUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -82,7 +85,12 @@ public class DefaultConverterManager implements ConverterManager {
 
             //集合
             else if (Collection.class.isAssignableFrom(originalType)) {
-
+                Class<?> targetType = extractTargetFromCollection(methodParameter.getGenericType());
+                Collection converted = (Collection) ReflectionUtil.instantiateCollection(originalType);
+                for (String item : FormValueHelper.arrayValue(value)) {
+                    converted.add(convert(targetType, item, map));
+                }
+                args[methodParameter.getPosition()] = converted;
             }
 
             //单个对象，原生或者包装，或者用户自定义类
@@ -90,12 +98,20 @@ public class DefaultConverterManager implements ConverterManager {
                 args[methodParameter.getPosition()] = convert(
                         originalType, value, map);
             }
-
-
         }
 
         return args;
     }
+
+    private Class<?> extractTargetFromCollection(Type genericType) {
+        if (genericType instanceof ParameterizedType) {
+            ParameterizedType type = (ParameterizedType) genericType;
+            return (Class<?>) type.getActualTypeArguments()[0];
+        } else {
+            throw new SettingException("collection_not_generic,can not fill a non generic Collection: " + genericType);
+        }
+    }
+
 
     private Object convert(Class<?> clazz, Object value, Map<String, Object> map) {
         if (converterTypes.get(clazz) != null) {

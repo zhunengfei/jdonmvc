@@ -1,3 +1,5 @@
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -17,14 +19,8 @@ public class User {
         this.name = name;
     }
 
-    public static void main(String[] args) {
-        int a[] = {1,2,3};
-        System.out.println(a.getClass().isArray());
-        List<Integer> list = new ArrayList<Integer>();
-        Set<Integer> set = new HashSet<Integer>();
-        System.out.println(Collection.class.isAssignableFrom(list.getClass()));
-        System.out.println(Collection.class.isAssignableFrom(set.getClass()));
-
+    public void test(List<String> dd) {
 
     }
+
 }
