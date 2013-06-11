@@ -1,8 +1,6 @@
 package com.jdon.mvc.rs.java;
 
-import com.thoughtworks.paranamer.BytecodeReadingParanamer;
-import com.thoughtworks.paranamer.CachingParanamer;
-import com.thoughtworks.paranamer.Paranamer;
+import com.jdon.mvc.util.MethodParanameExtractor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -24,8 +22,7 @@ public class Handler {
 
     private List<MethodParameter> methodParameters = new ArrayList<MethodParameter>();
 
-    private final Paranamer infoProvider = new CachingParanamer(
-            new BytecodeReadingParanamer());
+    private final MethodParanameExtractor infoProvider = new MethodParanameExtractor();
 
 
     public Handler(Class<?> type, Method method) {
