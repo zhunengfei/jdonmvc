@@ -2,6 +2,7 @@ package com.jdon.mvc.upload;
 
 import com.jdon.mvc.http.FormFile;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,6 +14,6 @@ public class MemoryParser extends Parser {
 
     @Override
     public List<FormFile> parse(TextFieldCallBack callBack) {
-        return null;
+        return Collections.EMPTY_LIST;
     }
 }

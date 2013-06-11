@@ -1,7 +1,7 @@
 package com.jdon.mvc.http;
 
 import com.jdon.mvc.rs.ResourceRequestInfo;
-import com.jdon.mvc.rs.java.JavaMethod;
+import com.jdon.mvc.rs.java.Handler;
 
 import java.util.Map;
 
@@ -14,21 +14,21 @@ import java.util.Map;
  */
 public class RequestTargetInfo {
 
-    private final JavaMethod jm;
+    private final Handler handler;
 
     private final Map<String, String> pathParam;
 
     private final ResourceRequestInfo resourceInfo;
 
-    public RequestTargetInfo(JavaMethod jm,
+    public RequestTargetInfo(Handler handler,
                              Map<String, String> pathParam, ResourceRequestInfo resourceInfo) {
-        this.jm = jm;
+        this.handler = handler;
         this.pathParam = pathParam;
         this.resourceInfo = resourceInfo;
     }
 
-    public JavaMethod getJavaMethod() {
-        return jm;
+    public Handler getHandler() {
+        return handler;
     }
 
     public Map<String, String> getPathParam() {

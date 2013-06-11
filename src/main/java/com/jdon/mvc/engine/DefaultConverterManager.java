@@ -1,21 +1,19 @@
 package com.jdon.mvc.engine;
 
-import com.jdon.mvc.annotations.Convert;
-import com.jdon.mvc.config.Scanner;
-import com.jdon.mvc.converter.FormValueHelper;
-import com.jdon.mvc.converter.TypeConverter;
+import com.jdon.mvc.converter.*;
 import com.jdon.mvc.core.ConverterManager;
+import com.jdon.mvc.http.FormFile;
 import com.jdon.mvc.rs.java.MethodParameter;
 import com.jdon.mvc.rs.java.SettingException;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.ServletContext;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,25 +28,40 @@ public class DefaultConverterManager implements ConverterManager {
 
     private Map<Class<?>, TypeConverter<?>> converterTypes = new HashMap<Class<?>, TypeConverter<?>>();
 
-    public DefaultConverterManager(final ServletContext servletContext) {
-        List<Class<?>> converts = Scanner.scanConvertClass(servletContext);
-        LOG.debug("finish scan the convert class,the size is:" + converts.size());
-        for (Class<?> clazz : converts) {
-            Class<?>[] toTypes = clazz.getAnnotation(Convert.class).value();
-            for (Class<?> type : toTypes)
-                try {
-                    converterTypes.put(type, (TypeConverter<?>) clazz
-                            .newInstance());
-                } catch (InstantiationException e) {
-                    LOG.error("can't instance the converter of:"
-                            + clazz.getName(), e);
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    LOG.error("can't instance the converter of:"
-                            + clazz.getName(), e);
-                    e.printStackTrace();
-                }
-        }
+    public DefaultConverterManager() {
+
+        converterTypes.put(Boolean.class, new BooleanConverter());
+        converterTypes.put(boolean.class, new BooleanConverter());
+
+        converterTypes.put(Byte.class, new ByteConverter());
+        converterTypes.put(byte.class, new ByteConverter());
+
+        converterTypes.put(Short.class, new ShortConverter());
+        converterTypes.put(short.class, new ShortConverter());
+
+        converterTypes.put(Character.class, new CharacterConverter());
+        converterTypes.put(char.class, new CharacterConverter());
+
+        converterTypes.put(Integer.class, new IntegerConverter());
+        converterTypes.put(int.class, new IntegerConverter());
+
+        converterTypes.put(Long.class, new LongConverter());
+        converterTypes.put(long.class, new LongConverter());
+
+        converterTypes.put(Float.class, new FloatConverter());
+        converterTypes.put(float.class, new FloatConverter());
+
+        converterTypes.put(Double.class, new DoubleConverter());
+        converterTypes.put(double.class, new DoubleConverter());
+
+        converterTypes.put(String.class, new StringConverter());
+
+
+        converterTypes.put(BigDecimal.class, new BigDecimalConverter());
+        converterTypes.put(BigInteger.class, new BigIntegerConverter());
+
+        converterTypes.put(FormFile.class, new SingleFormFileConverter());
+
     }
 
     public Object[] convert(Map<MethodParameter, Map<String, Object>> methodValue, Object[] args) {

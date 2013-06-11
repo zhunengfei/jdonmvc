@@ -4,7 +4,6 @@ import com.jdon.mvc.annotations.Convert;
 import com.jdon.mvc.util.StringUtils;
 
 
-@Convert({Float.class,float.class})
 public class FloatConverter implements TypeConverter<Float> {
 
     public Float convert(Object value) {

@@ -1,6 +1,6 @@
 package com.jdon.mvc.rs;
 
-import com.jdon.mvc.rs.java.JavaMethod;
+import com.jdon.mvc.rs.java.Handler;
 
 import java.util.Map;
 
@@ -18,6 +18,6 @@ public interface ResourceMatcher {
 		
 	Map<String,String> extractPathParams(String url); //extract key value from the url ,then will be set in method name with form value.
 	
-	JavaMethod getJavaMethod();
+	Handler getHandler();
 	
 }

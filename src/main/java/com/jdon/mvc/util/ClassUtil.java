@@ -12,7 +12,7 @@ public class ClassUtil {
      *
      * @return
      */
-    public static ClassLoader getDefaultClassLoader() {
+    public static ClassLoader getLoader() {
         ClassLoader cl = null;
         try {
             cl = Thread.currentThread().getContextClassLoader();

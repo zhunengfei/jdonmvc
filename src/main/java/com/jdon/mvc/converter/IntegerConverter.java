@@ -4,7 +4,6 @@ import com.jdon.mvc.annotations.Convert;
 import com.jdon.mvc.util.StringUtils;
 
 
-@Convert({Integer.class,int.class})
 public class IntegerConverter implements TypeConverter<Integer> {
 
     public Integer convert(Object value) {

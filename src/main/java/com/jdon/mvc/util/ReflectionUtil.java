@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ReflectionUtil {
+
 	private final static Log log = LogFactory.getLog(ReflectionUtil.class);
 
 	private static final String IS_INITIALS = "is";
 
 	private static final String GET_INITIALS = "get";
 
-	@SuppressWarnings("unused")
 	private static final String SET_INITIALS = "set";
 	
 	public static <T extends Annotation> List<FieldAnnotation<T>> readAnnotations(Class<?> type, Class<T> annot) {

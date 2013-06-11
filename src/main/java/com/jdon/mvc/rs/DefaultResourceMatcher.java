@@ -1,7 +1,7 @@
 package com.jdon.mvc.rs;
 
 import com.jdon.mvc.config.ConfigException;
-import com.jdon.mvc.rs.java.JavaMethod;
+import com.jdon.mvc.rs.java.Handler;
 import com.jdon.mvc.rs.method.*;
 
 import java.lang.reflect.Method;
@@ -25,10 +25,10 @@ public class DefaultResourceMatcher implements ResourceMatcher {
 
     private String verb = GET.class.getSimpleName(); //对资源的操作动词
 
-    private JavaMethod javaMethod;
+    private Handler handler;
 
-    public DefaultResourceMatcher(JavaMethod javaMethod, List<String> keys) {
-        Method m = javaMethod.getMethod();
+    public DefaultResourceMatcher(Handler handler, List<String> keys) {
+        Method m = handler.getMethod();
         Path path = m.getAnnotation(Path.class);
         String url = path.value();
         ResourcePatternBuilder builder = new ResourcePatternBuilder();
@@ -41,11 +41,11 @@ public class DefaultResourceMatcher implements ResourceMatcher {
                     "duplicate resource exception ,pls check the path:["
                             + url + "?" + this.verb + "]");
         keys.add(generateKey());
-        this.javaMethod = javaMethod;
+        this.handler = handler;
     }
 
-    public JavaMethod getJavaMethod() {
-        return javaMethod;
+    public Handler getHandler() {
+        return handler;
     }
 
 

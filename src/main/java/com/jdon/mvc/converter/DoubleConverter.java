@@ -4,7 +4,6 @@ import com.jdon.mvc.annotations.Convert;
 import com.jdon.mvc.util.StringUtils;
 
 
-@Convert({Double.class,double.class})
 public class DoubleConverter implements TypeConverter<Double> {
 
     public Double convert(Object value) {

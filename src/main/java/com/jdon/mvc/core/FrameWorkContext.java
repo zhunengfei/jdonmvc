@@ -37,7 +37,7 @@ public class FrameWorkContext {
 
 
         try {
-            InputStream config = ClassUtil.getDefaultClassLoader().getResourceAsStream("mvc.properties");
+            InputStream config = ClassUtil.getLoader().getResourceAsStream("mvc.properties");
             if (config != null) {
                 props.load(config);
             } else {

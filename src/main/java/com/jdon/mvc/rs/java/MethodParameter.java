@@ -10,7 +10,9 @@ package com.jdon.mvc.rs.java;
 public class MethodParameter {
 	
 	private final Class<?> type;
+
 	private final String name;
+
 	private final int position;
 	
 	public MethodParameter(Class<?> type, String name, int position) {

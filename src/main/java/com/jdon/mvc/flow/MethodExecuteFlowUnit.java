@@ -21,7 +21,7 @@ public class MethodExecuteFlowUnit implements FlowUnit {
 
     public void process(FlowContext context) throws ActionException {
 
-        Method method = context.requestTargetInfo().getJavaMethod().getMethod();
+        Method method = context.requestTargetInfo().getHandler().getMethod();
 
         Object[] args = (Object[]) context.flashMap().get(Constant.ARGS_FOR_METHOD);
         Object instance = context.javaObject();

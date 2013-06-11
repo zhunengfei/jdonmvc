@@ -8,7 +8,7 @@ import com.jdon.mvc.rs.DefaultResourceMatcher;
 import com.jdon.mvc.rs.InvalidResourceException;
 import com.jdon.mvc.rs.ResourceMatcher;
 import com.jdon.mvc.rs.ResourceRequestInfo;
-import com.jdon.mvc.rs.java.JavaMethod;
+import com.jdon.mvc.rs.java.Handler;
 import com.jdon.mvc.rs.method.Path;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,8 +45,8 @@ public class DefaultResourceManager implements ResourceManager {
             Method[] ms = clazz.getMethods();
             for (Method m : ms) {
                 if (validateMethod(m)) {
-                    JavaMethod jm = new JavaMethod(clazz, m);
-                    ResourceMatcher matcher = new DefaultResourceMatcher(jm, keys);
+                    Handler handler = new Handler(clazz, m);
+                    ResourceMatcher matcher = new DefaultResourceMatcher(handler, keys);
                     matcherList.add(matcher);
                     LOG.debug(matcher.toString());
                 }
@@ -56,7 +56,7 @@ public class DefaultResourceManager implements ResourceManager {
 
     @Override
     public RequestTargetInfo translate(ResourceRequestInfo requestInfo) {
-        JavaMethod jm = null;
+        Handler handler = null;
         Map<String, String> pathParam = null;
 
         String url = requestInfo.getUrl();
@@ -65,17 +65,17 @@ public class DefaultResourceManager implements ResourceManager {
         for (ResourceMatcher matcher : this.matcherList) {
             if (matcher.canHandle(url, verb)) {
                 pathParam = matcher.extractPathParams(url);
-                jm = matcher.getJavaMethod();
+                handler = matcher.getHandler();
                 break;
             }
         }
 
-        if (jm == null)
+        if (handler == null)
             throw new InvalidResourceException("can't find resource for:["
                     + url + "] by http verb[" + verb
                     + "]please check your resource design!");
 
-        return new RequestTargetInfo(jm, pathParam, requestInfo);
+        return new RequestTargetInfo(handler, pathParam, requestInfo);
     }
 
 

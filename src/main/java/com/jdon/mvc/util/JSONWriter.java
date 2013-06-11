@@ -17,7 +17,7 @@ import java.util.Map.Entry;
 
 public class JSONWriter {
 
-	private static final Log LOG = LogFactory.getLog(AnnotationUtils.class);
+	private static final Log LOG = LogFactory.getLog(JSONWriter.class);
 
 	private final StringBuilder serialized;
 
@@ -38,7 +38,6 @@ public class JSONWriter {
 		return serialized.toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void delegateToProperSerializeMethod(Object object) {
 		if (this.depth > this.maximumDepth) {
 			if (LOG.isDebugEnabled()) {
@@ -108,7 +107,6 @@ public class JSONWriter {
 		delegateToProperSerializeMethod(value);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void serializeMap(Map map) {
 		addAsString("{");
 		Iterator it = map.entrySet().iterator();
@@ -126,7 +124,6 @@ public class JSONWriter {
 		addAsString("}");
 	}
 
-	@SuppressWarnings("unchecked")
 	private void serializeIterable(Iterable iterable) {
 		addAsString("[");
 		Iterator it = iterable.iterator();

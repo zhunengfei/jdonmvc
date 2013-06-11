@@ -4,7 +4,6 @@ import com.jdon.mvc.annotations.Convert;
 import com.jdon.mvc.util.StringUtils;
 
 
-@Convert({Byte.class,byte.class})
 public class ByteConverter implements TypeConverter<Byte> {
 
     public Byte convert(Object value) {

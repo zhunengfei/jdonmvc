@@ -36,7 +36,7 @@ public class InstantiatedFlowUnit implements FlowUnit {
     public void process(FlowContext context) {
         RequestTargetInfo resource = context.requestTargetInfo();
         IocProvider beanProvider = context.fwContext().getIocProvider();
-        Class<?> type = resource.getJavaMethod().getBelongType();
+        Class<?> type = resource.getHandler().getBelongType();
 
         List<FieldAnnotation<In>> services = ReflectionUtil
                 .readAnnotations(type, In.class);

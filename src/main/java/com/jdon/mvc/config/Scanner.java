@@ -19,7 +19,7 @@ public class Scanner {
 	public static List<Class<?>> scanRestfulClass(final ServletContext context) {
 		return AnnotationUtils.findAnnotations(context, Path.class);
 	}
-	
+
 	public static List<Class<?>> scanConvertClass(final ServletContext context) {
 		return AnnotationUtils.findAnnotations(context, Convert.class);
 	}

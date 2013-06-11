@@ -5,7 +5,7 @@ import com.jdon.mvc.core.Env;
 import com.jdon.mvc.core.FlowContext;
 import com.jdon.mvc.http.ParameterKey;
 import com.jdon.mvc.http.RequestTargetInfo;
-import com.jdon.mvc.rs.java.JavaMethod;
+import com.jdon.mvc.rs.java.Handler;
 import com.jdon.mvc.rs.java.MethodParameter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,15 +28,15 @@ public class ParametersMappingFlowUnit implements FlowUnit {
 
     public void process(FlowContext ic) {
         RequestTargetInfo target = ic.requestTargetInfo();
-        JavaMethod jm = target.getJavaMethod();
+        Handler handler = target.getHandler();
 
         Map<String, String> pathParam = target.getPathParam();
         for (Entry<String, String> parameter : pathParam.entrySet())
             Env.req().setParameter(parameter.getKey(), parameter.getValue());
 
-        Object[] args = new Object[jm.getMethodParameters().size()];
+        Object[] args = new Object[handler.getMethodParameters().size()];
 
-        Map<MethodParameter, Map<String, Object>> methodValue = formKeyValueToJavaMethodParameter(Env.req().getParameterMap(), jm.getMethodParameters());
+        Map<MethodParameter, Map<String, Object>> methodValue = formKeyValueToJavaMethodParameter(Env.req().getParameterMap(), handler.getMethodParameters());
 
         ic.fwContext().getConverterManager().convert(methodValue, args);
 

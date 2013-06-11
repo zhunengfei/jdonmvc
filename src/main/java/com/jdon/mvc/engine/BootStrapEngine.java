@@ -37,7 +37,7 @@ public class BootStrapEngine {
 
         resourceManager = new DefaultResourceManager(servletContext);
 
-        converterManager = new DefaultConverterManager(servletContext);
+        converterManager = new DefaultConverterManager();
 
         String ioc = servletContext.getInitParameter(Constant.BEAN_PROVIDER);
         if (ioc == null)
