@@ -37,7 +37,6 @@ public class Image implements Represent {
 			try {
 				toClient.close();
 			} catch (IOException e) {
-				e.printStackTrace();
 				throw new RepresentationRenderException(e);
 			}
 		}
