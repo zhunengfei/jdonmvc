@@ -1,5 +1,7 @@
 package com.jdon.mvc.plugin;
 
+import com.jdon.mvc.core.FrameWorkContext;
+
 /**
  * User: oojdon
  * Date: 13-6-12
@@ -7,7 +9,7 @@ package com.jdon.mvc.plugin;
  */
 public interface JdonMvcPlugin {
 
-    void init();
+    void init(FrameWorkContext fc);
 
     void dispose();
 }
