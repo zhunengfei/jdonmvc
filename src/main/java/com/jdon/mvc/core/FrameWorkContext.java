@@ -1,7 +1,6 @@
 package com.jdon.mvc.core;
 
 import com.jdon.mvc.config.ConfigException;
-import com.jdon.mvc.config.Scanner;
 import com.jdon.mvc.template.TemplateManager;
 import com.jdon.mvc.util.ClassUtil;
 import org.apache.commons.logging.Log;
