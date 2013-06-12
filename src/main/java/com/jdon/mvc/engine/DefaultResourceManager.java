@@ -29,11 +29,6 @@ public class DefaultResourceManager implements ResourceManager {
     private List<String> keys = new ArrayList<String>();
 
 
-    public DefaultResourceManager(List<Class<?>> resourceTypes) {
-        parseClass(resourceTypes);
-    }
-
-
     public DefaultResourceManager(final ServletContext servletContext) {
         List<Class<?>> resourceTypes = Scanner.scanRestfulClass(servletContext);
         LOG.debug("finish scan the restful class,the size is:" + resourceTypes.size());

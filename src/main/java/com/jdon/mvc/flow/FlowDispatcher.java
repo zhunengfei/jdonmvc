@@ -55,6 +55,7 @@ public class FlowDispatcher implements Dispatcher {
 
     public void destroy() {
         LOG.info("Destroy dispatcher,Destroy the framework context");
+        fc.getPluginManager().dispose();
         fc = null;
     }
 }

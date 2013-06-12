@@ -1,6 +1,7 @@
 package com.jdon.mvc.http;
 
 import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.util.TypeUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -24,7 +25,7 @@ public class WebRequest extends HttpServletRequestWrapper {
         this.request = request;
         this.parameters = new RequestParameters(request.getParameterMap());
 
-        if (fc.getConfigItem(TRIM_FORM) != null && Boolean.valueOf(fc.getConfigItem(TRIM_FORM))) {
+        if (TypeUtil.boolTrue(fc.getConfigItem(TRIM_FORM))) {
             parameters.trimAllParamValue();
         }
     }

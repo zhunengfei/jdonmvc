@@ -1,5 +1,6 @@
 package com.jdon.mvc.plugin.oauth;
 
+import com.jdon.mvc.annotations.Plugin;
 import com.jdon.mvc.core.FrameWorkContext;
 import com.jdon.mvc.plugin.JdonMvcPlugin;
 
@@ -9,6 +10,7 @@ import com.jdon.mvc.plugin.JdonMvcPlugin;
  * Date: 13-6-9
  * Time: 上午10:09
  */
+@Plugin
 public class OauthClient implements JdonMvcPlugin {
 
     @Override

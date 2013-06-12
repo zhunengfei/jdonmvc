@@ -2,17 +2,24 @@ package com.jdon.mvc.engine;
 
 import com.jdon.mvc.Constant;
 import com.jdon.mvc.config.ConfigException;
-import com.jdon.mvc.core.ConverterManager;
-import com.jdon.mvc.core.FrameWorkContext;
-import com.jdon.mvc.core.IocProvider;
-import com.jdon.mvc.core.ResourceManager;
+import com.jdon.mvc.config.Scanner;
+import com.jdon.mvc.core.*;
 import com.jdon.mvc.ioc.JdonProvider;
+import com.jdon.mvc.ioc.SpringProvider;
+import com.jdon.mvc.plugin.JdonMvcPlugin;
 import com.jdon.mvc.template.TemplateManager;
+import com.jdon.mvc.util.ClassUtil;
+import com.jdon.mvc.util.ReflectionUtil;
+import com.jdon.mvc.util.TypeUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * 框架的启动引擎
@@ -23,42 +30,74 @@ public class BootStrapEngine {
 
     private final static Log LOG = LogFactory.getLog(BootStrapEngine.class);
 
-    private ConverterManager converterManager;
+    public static final String IOC_CONFIG = "useSpring?";
 
-    private ResourceManager resourceManager;
-
-    private IocProvider beanProvider;
-
-    private TemplateManager templateManager;
 
     public FrameWorkContext bootStrap(final ServletContext servletContext) {
 
         LOG.info("Begin initial core component of framework.");
 
-        resourceManager = new DefaultResourceManager(servletContext);
+        ResourceManager resourceManager = new DefaultResourceManager(servletContext);
 
-        converterManager = new DefaultConverterManager();
+        ConverterManager converterManager = new DefaultConverterManager();
 
-        String ioc = servletContext.getInitParameter(Constant.BEAN_PROVIDER);
-        if (ioc == null)
-            beanProvider = new JdonProvider();
-        else {
+        Properties props = new Properties();
+
+        try {
+            InputStream defaultConfig = ClassUtil.getLoader().getResourceAsStream("com/jdon/mvc/config/DefaultConfig.properties");
             try {
-                beanProvider = (IocProvider) Class.forName(ioc)
-                        .getDeclaredConstructor().newInstance();
-            } catch (InvocationTargetException e) {
-                throw new ConfigException(e.getCause());
-            } catch (Exception e) {
-                throw new ConfigException(e);
+                if (defaultConfig != null) {
+                    props.load(defaultConfig);
+                } else {
+                    throw new ConfigException("can not find the default config");
+                }
+            } finally {
+                defaultConfig.close();
             }
+
+            //如果发现用户有配置就覆盖默认配置
+            InputStream userConfig = ClassUtil.getLoader().getResourceAsStream("mvc.properties");
+            if (userConfig != null) {
+                Properties customProps = new Properties();
+                customProps.load(userConfig);
+                props.putAll(customProps);
+                userConfig.close();
+            } else {
+                LOG.warn("can't find mvc.properties,framework will use default config");
+            }
+
+        } catch (IOException e) {
+            LOG.warn("parse framework config fail", e);
+        }
+
+        IocProvider beanProvider = new JdonProvider();
+        if (TypeUtil.boolTrue(props.getProperty(IOC_CONFIG))) {
+            beanProvider = new SpringProvider();
         }
         LOG.info("IOC container [" + beanProvider.getClass().getName()
                 + "] init ok.");
 
-        templateManager = new TemplateManager(servletContext);
+        TemplateManager templateManager = new TemplateManager(servletContext);
 
-        return new FrameWorkContext(converterManager, resourceManager,
-                beanProvider, templateManager, null);
+        FrameWorkContext frameWorkContext = new FrameWorkContext(converterManager, resourceManager,
+                beanProvider, templateManager);
+
+        frameWorkContext.setProps(props);
+
+        LOG.info("begin scan plugin");
+
+        List<Class<?>> plugins = Scanner.scanPluginClass(servletContext);
+        PluginManager pluginManager = frameWorkContext.getPluginManager();
+
+        for (Class<?> plugin : plugins) {
+            JdonMvcPlugin plugInstance = (JdonMvcPlugin) ReflectionUtil.instantiate(plugin);
+            pluginManager.register(plugInstance);
+        }
+
+        pluginManager.init(frameWorkContext);
+
+
+        return frameWorkContext;
 
     }
 

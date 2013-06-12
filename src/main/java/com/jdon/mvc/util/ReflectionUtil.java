@@ -1,15 +1,13 @@
 package com.jdon.mvc.util;
 
+import com.jdon.mvc.config.ConfigException;
 import com.jdon.mvc.rs.java.SettingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.beans.Introspector;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.util.*;
 
 public class ReflectionUtil {
@@ -21,6 +19,16 @@ public class ReflectionUtil {
 	private static final String GET_INITIALS = "get";
 
 	private static final String SET_INITIALS = "set";
+
+    public static <T> T instantiate(Class<T> clazz) throws ConfigException {
+        try {
+            return clazz.getConstructor().newInstance();
+        } catch (InvocationTargetException e) {
+            throw new ConfigException(e.getMessage(), e.getCause());
+        } catch (Exception e) {
+            throw new ConfigException(e.getMessage(), e);
+        }
+    }
 
     public static Object instantiateCollection(Type type) {
         Class<?> clazz = Class.class.cast(type);
