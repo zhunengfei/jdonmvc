@@ -1,12 +1,10 @@
 package com.jdon.mvc.converter;
 
-import com.jdon.mvc.annotations.Convert;
 import com.jdon.mvc.http.FormFile;
 
 import java.util.List;
 
 
-@Convert(FormFile.class)
 public class SingleFormFileConverter implements TypeConverter<FormFile> {
 
     public FormFile convert(Object value) {

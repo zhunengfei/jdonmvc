@@ -1,11 +1,9 @@
 package com.jdon.mvc.converter;
 
-import com.jdon.mvc.annotations.Convert;
 import com.jdon.mvc.util.StringUtils;
 
 import java.math.BigDecimal;
 
-@Convert(BigDecimal.class)
 public class BigDecimalConverter implements TypeConverter<BigDecimal> {
 
 	public BigDecimal convert(Object value) {
