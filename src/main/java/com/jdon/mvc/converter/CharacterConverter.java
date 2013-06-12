@@ -1,6 +1,5 @@
 package com.jdon.mvc.converter;
 
-import com.jdon.mvc.annotations.Convert;
 
 
 public class CharacterConverter implements TypeConverter<Character> {
