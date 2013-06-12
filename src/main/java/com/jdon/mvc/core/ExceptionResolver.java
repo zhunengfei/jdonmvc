@@ -1,6 +1,7 @@
 package com.jdon.mvc.core;
 
 import com.jdon.mvc.represent.Represent;
+import com.jdon.mvc.rs.java.Handler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,5 +15,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface ExceptionResolver {
 
     Represent resolveException(
-            HttpServletRequest request, HttpServletResponse response, Object controller, Exception ex);
+            HttpServletRequest request, HttpServletResponse response, Handler handler, Exception ex);
 }

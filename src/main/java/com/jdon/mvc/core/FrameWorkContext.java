@@ -1,5 +1,7 @@
 package com.jdon.mvc.core;
 
+import com.jdon.mvc.config.ConfigException;
+import com.jdon.mvc.config.Scanner;
 import com.jdon.mvc.template.TemplateManager;
 import com.jdon.mvc.util.ClassUtil;
 import org.apache.commons.logging.Log;
@@ -35,16 +37,31 @@ public class FrameWorkContext {
         this.templateManager = templateManager;
         this.exceptionResolver = exceptionResolver;
 
-
         try {
-            InputStream config = ClassUtil.getLoader().getResourceAsStream("mvc.properties");
-            if (config != null) {
-                props.load(config);
+            InputStream defaultConfig = ClassUtil.getLoader().getResourceAsStream("com/jdon/mvc/config/DefaultConfig.properties");
+            try {
+                if (defaultConfig != null) {
+                    props.load(defaultConfig);
+                } else {
+                    throw new ConfigException("can not find the default config");
+                }
+            } finally {
+                defaultConfig.close();
+            }
+
+            //如果发现用户有配置就覆盖默认配置
+            InputStream userConfig = ClassUtil.getLoader().getResourceAsStream("mvc.properties");
+            if (userConfig != null) {
+                Properties userprops = new Properties();
+                userprops.load(userConfig);
+                props.putAll(userprops);
+                userConfig.close();
             } else {
                 LOG.warn("can't find mvc.properties,framework will use default config");
             }
+
         } catch (IOException e) {
-            LOG.warn("parse framework config fail",e);
+            LOG.warn("parse framework config fail", e);
         }
     }
 

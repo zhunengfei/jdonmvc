@@ -3,6 +3,7 @@ package com.jdon.mvc.flow;
 import com.jdon.mvc.Constant;
 import com.jdon.mvc.core.*;
 import com.jdon.mvc.engine.DefaultFlowContext;
+import com.jdon.mvc.http.RequestTargetInfo;
 import com.jdon.mvc.represent.RepresentationRenderException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,7 +42,8 @@ public class FlowDispatcher implements Dispatcher {
         } catch (ActionException e) {
             if (fc.getExceptionResolver() != null) {
                 try {
-                    fc.getExceptionResolver().resolveException(Env.req(), Env.res(), ic.flashMap().get(Constant.RESOURCE_INSTANCE), e).render(fc);
+                    RequestTargetInfo target = (RequestTargetInfo) ic.flashMap().get(Constant.RESOURCE);
+                    fc.getExceptionResolver().resolveException(Env.req(), Env.res(), target.getHandler(), e).render(fc);
                 } catch (RepresentationRenderException rrx) {
                     throw new ServletException(rrx);
                 }
