@@ -6,6 +6,6 @@ import com.jdon.mvc.rs.method.Path
  * Time: 下午11:59
  */
 @Path("/forum/{id}")
-def void show(int id) {
+void show(int id) {
     println id
 }
