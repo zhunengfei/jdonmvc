@@ -11,12 +11,24 @@ import java.lang.reflect.Type;
  */
 public class MethodParameter {
 
+    /**
+     * 参数类型
+     */
     private final Class<?> type;
 
+    /**
+     * 范型类型
+     */
     private final Type genericType;
 
+    /**
+     * 参数名字
+     */
     private final String name;
 
+    /**
+     * 参数位置
+     */
     private final int position;
 
     public MethodParameter(Class<?> type, Type genericType, String name, int position) {

@@ -1,7 +1,3 @@
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.*;
-
 /**
  * User: Asion
  * Date: 13-6-7
@@ -17,10 +13,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void test(List<String> dd) {
-
     }
 
 }

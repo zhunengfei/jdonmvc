@@ -23,6 +23,14 @@ import java.util.Map;
 /**
  * used for converter the request parameter value to the correct type so the
  * type can match the java method.
+ * <p/>
+ * 方法参数目前支持简单的原生类型绑定,String,BigDecimal,BigInteger,FormFile也支持
+ *
+ * 但是如果是用户自己定义类型，比如User，直接用apache commons beanUtils来进行绑定，语法是
+ *
+ * user.name
+ * user[index]  数组和list
+ * user(key)
  *
  * @author oojdon
  */
