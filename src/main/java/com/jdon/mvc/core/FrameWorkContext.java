@@ -4,6 +4,7 @@ import com.jdon.mvc.template.TemplateManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.servlet.ServletContext;
 import java.util.Properties;
 
 public class FrameWorkContext {
@@ -20,18 +21,21 @@ public class FrameWorkContext {
 
     private final PluginManager pluginManager = new PluginManager();
 
-    private  ExceptionResolver exceptionResolver;
+    private ExceptionResolver exceptionResolver;
+
+    private final ServletContext servletContext;
 
     //框架配置
     private Properties props = new Properties();
 
     public FrameWorkContext(ConverterManager converterManager,
                             ResourceManager resourceManager, IocProvider beanProvider,
-                            TemplateManager templateManager) {
+                            TemplateManager templateManager, ServletContext servletContext) {
         this.converterManager = converterManager;
         this.resourceManager = resourceManager;
         this.beanProvider = beanProvider;
         this.templateManager = templateManager;
+        this.servletContext = servletContext;
     }
 
     public ConverterManager getConverterManager() {
@@ -68,5 +72,9 @@ public class FrameWorkContext {
 
     public void setProps(Properties props) {
         this.props = props;
+    }
+
+    public ServletContext getServletContext() {
+        return servletContext;
     }
 }

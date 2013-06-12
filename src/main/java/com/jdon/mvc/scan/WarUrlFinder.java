@@ -34,12 +34,23 @@ public class WarUrlFinder {
      * @return null if cannot determin /WEB-INF/classes
      */
     public static URL findWebInfClasses(ServletContext servletContext) {
-        String path = servletContext.getRealPath("/WEB-INF/classes");
-        if (path == null) return null;
-        File fp = new File(path);
+        return findWebInfURL(servletContext,"/WEB-INF/classes");
+    }
+
+
+    /**
+     * 在/WEB-INF下寻找URL
+     * @param servletContext
+     * @param path
+     * @return
+     */
+    public static URL findWebInfURL(ServletContext servletContext, String path) {
+        String realPath = servletContext.getRealPath(path);
+        if (realPath == null) return null;
+        File fp = new File(realPath);
         if (fp.exists() == false) return null;
         try {
-            return fp.toURL();
+            return fp.toURI().toURL();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

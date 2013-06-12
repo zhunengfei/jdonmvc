@@ -64,6 +64,10 @@ public class Controller {
 
         MockRequest listRequest = new MockRequest(cfg.getServletContext(), "Get", "/list");
         listRequest.addMultiParam("list",new String[]{"111","222"});
+
+        //测试groovy
+        filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/forum/44444"), new MockResponse(), chain);
+
         filter.doFilter(listRequest, new MockResponse(), chain);
         filter.destroy();
 

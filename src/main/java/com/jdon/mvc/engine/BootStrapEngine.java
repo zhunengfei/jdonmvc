@@ -80,7 +80,7 @@ public class BootStrapEngine {
         TemplateManager templateManager = new TemplateManager(servletContext);
 
         FrameWorkContext frameWorkContext = new FrameWorkContext(converterManager, resourceManager,
-                beanProvider, templateManager);
+                beanProvider, templateManager,servletContext);
 
         frameWorkContext.setProps(props);
 
