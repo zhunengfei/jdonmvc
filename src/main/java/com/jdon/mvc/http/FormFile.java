@@ -58,6 +58,6 @@ public interface FormFile {
      *
      * @param file
      */
-    void transferTo(java.io.File file);
+    void transferTo(java.io.File file) throws IOException;
 
 }
