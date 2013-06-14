@@ -79,10 +79,7 @@ public class FormFileFlowUnit implements FlowUnit{
             else {
                 if (StringUtils.isNotEmpty(item.getName())) {
                     try {
-                        File file = File.createTempFile("temp.", ".upload");
-                        file.deleteOnExit();
-                        item.write(file);
-                        FormFile formFile = new FormFileImp(file, item);
+                        FormFile formFile = new FormFileImp(item);
                         Env.req().addFormFile(item.getFieldName(), formFile);
                         LOG.info("Uploaded file: " + item.getFieldName() + " with " + formFile);
                     }
@@ -91,7 +88,7 @@ public class FormFileFlowUnit implements FlowUnit{
                     }
                 }
                 else {
-                    LOG.info("A file field was empy: " + item.getFieldName());
+                    LOG.info("A file field was empty: " + item.getFieldName());
                 }
             }
         }

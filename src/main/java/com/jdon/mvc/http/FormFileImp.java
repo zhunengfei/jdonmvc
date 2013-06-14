@@ -20,19 +20,14 @@ public class FormFileImp implements FormFile {
 
     private static final String UNIX_LIKE_SEPARATOR = "/";
 
-    private File file;
-
     private String fileName;
-
-    private String originalFilename;
 
     private FileItem item;
 
 
-    public FormFileImp(File file, FileItem item) {
+    public FormFileImp(FileItem item) {
         this.item = item;
-        this.file = file;
-        this.originalFilename = item.getName();
+        String originalFilename = item.getName();
 
         if (originalFilename.indexOf(UNIX_LIKE_SEPARATOR) == -1) {
             this.fileName = originalFilename.substring(originalFilename
@@ -48,7 +43,7 @@ public class FormFileImp implements FormFile {
         return item.getContentType();
     }
 
-    public long getFileSize(){
+    public long getFileSize() {
         return item.getSize();
     }
 
@@ -60,14 +55,9 @@ public class FormFileImp implements FormFile {
         return item.getInputStream();
     }
 
-
-    public String getFileName() {
-        return this.fileName;
-    }
-
-
+    @Override
     public String getOriginalFilename() {
-        return this.originalFilename;
+        return fileName;
     }
 
     @Override
@@ -88,22 +78,13 @@ public class FormFileImp implements FormFile {
 
         try {
             this.item.write(dest);
-        }
-        catch (FileUploadException ex) {
+        } catch (FileUploadException ex) {
             throw new IllegalStateException(ex.getMessage());
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw ex;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new IOException("Could not transfer to file: " + ex.getMessage());
         }
-    }
-
-    public String toString() {
-        return "[uploadedFile location=" + this.file + " uploadedCompleteName="
-                + this.originalFilename + " uploadedName=" + this.fileName
-                + " contentType=" + this.getContentType() + "";
     }
 
 
