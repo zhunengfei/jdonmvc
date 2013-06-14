@@ -6,6 +6,8 @@ import com.jdon.mvc.util.TypeUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +21,8 @@ public class WebRequest extends HttpServletRequestWrapper {
 
     private HttpServletRequest request;
 
+    private List<FormFile> formFileList = new LinkedList<FormFile>();
+
 
     public WebRequest(HttpServletRequest request, FrameWorkContext fc) {
         super(request);
@@ -27,6 +31,14 @@ public class WebRequest extends HttpServletRequestWrapper {
 
         if (TypeUtil.boolTrue(fc.getConfigItem(TRIM_FORM))) {
             parameters.trimAllParamValue();
+        }
+    }
+
+
+    public void cleanupMultipart() {
+        for (FormFile formFile : formFileList) {
+            FormFileImp formFileImp = (FormFileImp) formFile;
+            formFileImp.getFileItem().delete();
         }
     }
 
@@ -40,6 +52,7 @@ public class WebRequest extends HttpServletRequestWrapper {
 
     public void addFormFile(String name, FormFile formFile) {
         parameters.addFormFile(name, formFile);
+        formFileList.add(formFile);
     }
 
     @Override

@@ -39,6 +39,11 @@ public class FormFileImp implements FormFile {
     }
 
 
+    public final FileItem getFileItem() {
+        return this.item;
+    }
+
+
     public String getContentType() {
         return item.getContentType();
     }

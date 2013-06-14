@@ -59,7 +59,8 @@ public class RestFilter implements Filter {
         final HttpServletRequest httpReq = (HttpServletRequest) req;
         final HttpServletResponse httpResp = (HttpServletResponse) res;
 
-        Env.create(new WebRequest(httpReq, dispatcher.getFc()), httpResp, servletContext);
+        WebRequest request = new WebRequest(httpReq, dispatcher.getFc());
+        Env.create(request, httpResp, servletContext);
 
         try {
             if (UrlHelper.isStaticFileRequest(httpReq)) {
@@ -72,6 +73,7 @@ public class RestFilter implements Filter {
         } catch (ServletException e) {
             throw e;
         } finally {
+            request.cleanupMultipart();
             Env.destroy();
         }
     }
