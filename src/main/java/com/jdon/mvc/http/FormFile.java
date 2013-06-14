@@ -32,7 +32,7 @@ public interface FormFile {
     byte[] getFileData();
 
     /**
-     * 流，其实也可以直接把流写进自己数组，上面直接提供自己数组的方法
+     * 流，其实也可以直接把流写进字节数组，上面直接提供自己数组的方法
      *
      * @return
      * @throws IOException
