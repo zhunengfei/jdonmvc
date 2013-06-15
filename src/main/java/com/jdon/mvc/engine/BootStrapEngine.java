@@ -1,6 +1,5 @@
 package com.jdon.mvc.engine;
 
-import com.jdon.mvc.Constant;
 import com.jdon.mvc.config.ConfigException;
 import com.jdon.mvc.config.Scanner;
 import com.jdon.mvc.core.*;
@@ -17,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
 import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Properties;
 

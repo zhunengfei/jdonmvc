@@ -5,8 +5,13 @@ import com.jdon.mvc.core.FrameWorkContext;
 import com.jdon.mvc.plugin.JdonMvcPlugin;
 import com.jdon.mvc.scan.WarUrlFinder;
 import groovy.lang.GroovyClassLoader;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -19,6 +24,8 @@ import java.net.URL;
 @Plugin
 public class GroovyPlugin implements JdonMvcPlugin {
 
+    private final static Log LOG = LogFactory.getLog(GroovyPlugin.class);
+
     private GroovyClassLoader loader = new GroovyClassLoader();
 
     @Override
@@ -27,6 +34,18 @@ public class GroovyPlugin implements JdonMvcPlugin {
         if (groovyURL != null) {
             File dir = new File(groovyURL.getPath());
             File[] files = dir.listFiles();
+            for (File file : files) {
+                if (!file.isDirectory() && file.getName().endsWith("groovy")) {
+                    LOG.info("find groovy file:" + file.getName());
+                    try {
+                        String script = IOUtils.toString(new FileInputStream(file), "UTF-8");
+                        Class type = loader.parseClass(script);
+                        fc.getResourceManager().registerClass(type);
+                    } catch (IOException e) {
+                        LOG.error("can't load groovy file", e);
+                    }
+                }
+            }
         }
 
     }

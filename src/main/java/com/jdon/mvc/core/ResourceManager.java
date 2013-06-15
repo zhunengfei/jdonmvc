@@ -10,6 +10,8 @@ import com.jdon.mvc.rs.ResourceRequestInfo;
  */
 public interface ResourceManager {
 
+    void registerClass(Class<?> type);
+
     RequestTargetInfo translate(ResourceRequestInfo info);
 
 }

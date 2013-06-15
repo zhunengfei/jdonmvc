@@ -32,19 +32,25 @@ public class DefaultResourceManager implements ResourceManager {
     public DefaultResourceManager(final ServletContext servletContext) {
         List<Class<?>> resourceTypes = Scanner.scanRestfulClass(servletContext);
         LOG.debug("finish scan the restful class,the size is:" + resourceTypes.size());
-        parseClass(resourceTypes);
+        for (Class<?> resourceType : resourceTypes) {
+            parseClass(resourceType);
+        }
     }
 
-    private void parseClass(List<Class<?>> resourceTypes) {
-        for (Class<?> clazz : resourceTypes) {
-            Method[] ms = clazz.getMethods();
-            for (Method m : ms) {
-                if (validateMethod(m)) {
-                    Handler handler = new Handler(clazz, m);
-                    ResourceMatcher matcher = new DefaultResourceMatcher(handler, keys);
-                    matcherList.add(matcher);
-                    LOG.debug(matcher.toString());
-                }
+
+    @Override
+    public void registerClass(Class<?> type) {
+        parseClass(type);
+    }
+
+    private void parseClass(Class<?> resourceType) {
+        Method[] ms = resourceType.getMethods();
+        for (Method m : ms) {
+            if (validateMethod(m)) {
+                Handler handler = new Handler(resourceType, m);
+                ResourceMatcher matcher = new DefaultResourceMatcher(handler, keys);
+                matcherList.add(matcher);
+                LOG.debug(matcher.toString());
             }
         }
     }
