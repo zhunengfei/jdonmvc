@@ -6,7 +6,7 @@ import com.jdon.mvc.plugin.JdonMvcPlugin;
 
 /**
  * Oauth协议客户端，只支持Oauth2
- * User: Asion
+ * User: oojdon
  * Date: 13-6-9
  * Time: 上午10:09
  */

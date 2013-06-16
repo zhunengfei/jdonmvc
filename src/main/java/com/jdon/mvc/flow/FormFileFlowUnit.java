@@ -17,10 +17,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
- * 文件上传解析拦截
+ * 文件上传解析
  * <p/>
- * todo 没有清除临时文件
- *
  * @author oojdon
  */
 
@@ -34,7 +32,6 @@ public class FormFileFlowUnit implements FlowUnit {
 
 
     public void process(FlowContext context) {
-
 
         if (ServletFileUpload.isMultipartContent(Env.req())) {
             DiskFileItemFactory factory = createFactoryForDiskBasedFileItems();

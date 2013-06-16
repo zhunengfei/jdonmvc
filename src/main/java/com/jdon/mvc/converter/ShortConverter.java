@@ -5,7 +5,7 @@ import com.jdon.mvc.util.StringUtils;
 
 public class ShortConverter implements TypeConverter<Short> {
 
-    public Short convert(Object value) {
+    public Short convert(Class<?> type, Object value) {
     	String formValue = FormValueHelper.singleValue(value);
     	if(StringUtils.isEmpty(formValue))
     		return null;

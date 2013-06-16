@@ -15,6 +15,9 @@ import java.util.Map;
  */
 public class WebRequest extends HttpServletRequestWrapper {
 
+    /**
+     * 是否trim表单中的值
+     */
     public static final String TRIM_FORM = "trim?";
 
     private final RequestParameters parameters;

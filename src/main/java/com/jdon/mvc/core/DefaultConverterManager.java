@@ -24,9 +24,9 @@ import java.util.Map;
  * type can match the java method.
  * <p/>
  * 方法参数目前支持简单的原生类型绑定,String,BigDecimal,BigInteger,FormFile也支持
- *
+ * <p/>
  * 但是如果是用户自己定义类型，比如User，直接用apache commons beanUtils来进行绑定，语法是
- *
+ * <p/>
  * user.name
  * user[index]  数组和list
  * user(key)
@@ -72,6 +72,8 @@ public class DefaultConverterManager implements ConverterManager {
         converterTypes.put(BigInteger.class, new BigIntegerConverter());
 
         converterTypes.put(FormFile.class, new SingleFormFileConverter());
+
+        converterTypes.put(Enum.class, new EnumConverter());
 
     }
 
@@ -121,9 +123,15 @@ public class DefaultConverterManager implements ConverterManager {
 
 
     private Object convert(Class<?> clazz, Object value, Map<String, Object> map) {
+
+        //枚举类型手动判断
+        if (clazz.isEnum()) {
+            return converterTypes.get(Enum.class).convert(clazz, value);
+        }
+
         if (converterTypes.get(clazz) != null) {
             TypeConverter<?> c = converterTypes.get(clazz);
-            return c.convert(value);
+            return c.convert(clazz, value);
         } else {
             return convertObject(clazz, map);
         }

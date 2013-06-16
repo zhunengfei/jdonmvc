@@ -48,6 +48,11 @@ public class Controller {
         System.out.println(list);
     }
 
+    @Path("/binding")
+    public void testBinding(Code code) {
+        System.out.println(code);
+    }
+
 
     public static void main(String[] args) throws ServletException, IOException {
 
@@ -64,13 +69,23 @@ public class Controller {
 
         MockRequest listRequest = new MockRequest(cfg.getServletContext(), "Get", "/list");
         listRequest.addMultiParam("list",new String[]{"111","222"});
+        filter.doFilter(listRequest, new MockResponse(), chain);
+
+        MockRequest enumRequest =new MockRequest(cfg.getServletContext(),"Get","/binding");
+        enumRequest.addParam("code","yes");
+        filter.doFilter(enumRequest, new MockResponse(), chain);
+
 
         //测试groovy
         filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/forum/44444"), new MockResponse(), chain);
 
-        filter.doFilter(listRequest, new MockResponse(), chain);
         filter.destroy();
 
     }
 
+}
+
+enum Code {
+    yes,
+    no
 }

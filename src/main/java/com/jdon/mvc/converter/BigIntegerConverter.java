@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 public class BigIntegerConverter implements TypeConverter<BigInteger> {
 
-	public BigInteger convert(Object value) {
+	public BigInteger convert(Class<?> type, Object value) {
 		String formValue = FormValueHelper.singleValue(value);
 		if (StringUtils.isEmpty(formValue))
 			return null;
