@@ -41,6 +41,7 @@ public class DefaultConverterManager implements ConverterManager {
 
     public DefaultConverterManager() {
 
+        // Primitive Data Types
         converterTypes.put(Boolean.class, new BooleanConverter());
         converterTypes.put(boolean.class, new BooleanConverter());
 
@@ -64,15 +65,13 @@ public class DefaultConverterManager implements ConverterManager {
 
         converterTypes.put(Double.class, new DoubleConverter());
         converterTypes.put(double.class, new DoubleConverter());
+        // Primitive Data Types
+
 
         converterTypes.put(String.class, new StringConverter());
-
-
         converterTypes.put(BigDecimal.class, new BigDecimalConverter());
         converterTypes.put(BigInteger.class, new BigIntegerConverter());
-
         converterTypes.put(FormFile.class, new SingleFormFileConverter());
-
         converterTypes.put(Enum.class, new EnumConverter());
 
     }

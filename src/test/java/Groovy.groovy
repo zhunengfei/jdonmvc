@@ -5,7 +5,7 @@ import com.jdon.mvc.rs.method.Path
  * Date: 13-6-12
  * Time: 下午11:59
  */
-@Path("/forum/{id}")
+@Path("/forum/:id")
 void show(int id) {
     println id
 }

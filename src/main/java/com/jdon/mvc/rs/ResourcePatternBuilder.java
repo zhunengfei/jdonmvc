@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class ResourcePatternBuilder {
 
-    private final Log LOG = LogFactory.getLog(getClass());
+    private final Log LOG = LogFactory.getLog(ResourcePatternBuilder.class);
 
     private List<String> params = new ArrayList<String>();
 
@@ -23,15 +23,15 @@ public class ResourcePatternBuilder {
 
     public void build(String path) {
 
-        //先提取出{}中的路径变量
-        Matcher matcher = Pattern.compile("\\{([a-zA-Z_0-9.]+)\\}").matcher(path);
+        //先提取出:identify中的路径变量
+        Matcher matcher = Pattern.compile(":([a-zA-Z_0-9.]+)").matcher(path);
         while (matcher.find()) {
             String value = matcher.group(1);
             params.add(value);
         }
 
-        //再把路径变换成一个正则表达式
-        String patternString = path.replaceAll("\\{([a-zA-Z_0-9.]+)\\}", "([^/]+)");
+        //再把路径变换成一个正则表达式, ([^/])+表示非/的任意字符重复一次以上
+        String patternString = path.replaceAll(":([a-zA-Z_0-9.]+)", "([^/]+)");
         LOG.info("--->build regex in PatternBuilder:" + patternString);
         this.pattern = Pattern.compile(patternString);
     }

@@ -31,13 +31,13 @@ public class Controller {
     }
 
 
-    @Path("/blog/{id}")
+    @Path("/blog/:id")
     @GET
     public void show(int id) {
         System.out.println(id);
     }
 
-    @Path("/blog/{id}/sub/{sub}")
+    @Path("/blog/:id/sub/:sub")
     @GET
     public void show(int id, int sub) {
         System.out.println(id + sub);
