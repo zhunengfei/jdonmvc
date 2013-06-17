@@ -1,15 +1,18 @@
 package com.jdon.mvc.engine;
 
+import com.jdon.container.access.xml.AppConfigureCollection;
+import com.jdon.container.startup.ContainerSetupScript;
+import com.jdon.controller.context.web.ServletContextWrapper;
 import com.jdon.mvc.config.ConfigException;
 import com.jdon.mvc.config.Scanner;
 import com.jdon.mvc.core.*;
 import com.jdon.mvc.ioc.JdonProvider;
-import com.jdon.mvc.ioc.SpringProvider;
 import com.jdon.mvc.plugin.JdonMvcPlugin;
 import com.jdon.mvc.template.TemplateManager;
 import com.jdon.mvc.util.ClassUtil;
 import com.jdon.mvc.util.ReflectionUtil;
-import com.jdon.mvc.util.TypeUtil;
+import com.jdon.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -27,8 +30,6 @@ import java.util.Properties;
 public class BootStrapEngine {
 
     private final static Log LOG = LogFactory.getLog(BootStrapEngine.class);
-
-    public static final String IOC_CONFIG = "useSpring?";
 
 
     public FrameWorkContext bootStrap(final ServletContext servletContext) {
@@ -68,17 +69,10 @@ public class BootStrapEngine {
             LOG.warn("parse framework config fail", e);
         }
 
-        IocProvider beanProvider = new JdonProvider();
-        if (TypeUtil.boolTrue(props.getProperty(IOC_CONFIG))) {
-            beanProvider = new SpringProvider();
-        }
-        LOG.info("IOC container [" + beanProvider.getClass().getName()
-                + "] init ok.");
-
         TemplateManager templateManager = new TemplateManager(servletContext);
 
-        FrameWorkContext frameWorkContext = new FrameWorkContext(converterManager, resourceManager,
-                beanProvider, templateManager,servletContext);
+        FrameWorkContext frameWorkContext = new FrameWorkContext(converterManager, resourceManager, templateManager, servletContext);
+        frameWorkContext.setBeanProvider(initJdonIoc(servletContext));
 
         frameWorkContext.setProps(props);
 
@@ -97,6 +91,25 @@ public class BootStrapEngine {
 
         return frameWorkContext;
 
+    }
+
+
+    private JdonProvider initJdonIoc(ServletContext servletContext) {
+        ServletContextWrapper context = new ServletContextWrapper(servletContext);
+        final ContainerSetupScript css = new ContainerSetupScript();
+        css.initialized(context);
+
+        String app_configFile = context.getInitParameter(AppConfigureCollection.CONFIG_NAME);
+        if (StringUtils.isEmpty(app_configFile)) {
+            css.prepare("", context);
+        } else {
+            String[] configs = StringUtil.split(app_configFile, ",");
+            for (int i = 0; i < configs.length; i++) {
+                css.prepare(configs[i], context);
+            }
+        }
+
+        return new JdonProvider(css);
     }
 
 }

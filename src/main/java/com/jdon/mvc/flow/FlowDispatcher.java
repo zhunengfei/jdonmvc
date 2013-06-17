@@ -1,9 +1,11 @@
 package com.jdon.mvc.flow;
 
+import com.jdon.controller.context.web.ServletContextWrapper;
 import com.jdon.mvc.Constant;
 import com.jdon.mvc.core.*;
 import com.jdon.mvc.engine.DefaultFlowContext;
 import com.jdon.mvc.http.RequestTargetInfo;
+import com.jdon.mvc.ioc.JdonProvider;
 import com.jdon.mvc.represent.RepresentationRenderException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,7 +57,11 @@ public class FlowDispatcher implements Dispatcher {
 
     public void destroy() {
         LOG.info("Destroy dispatcher,Destroy the framework context");
-        fc.getPluginManager().dispose();
+        IocProvider iocProvider = fc.getIocProvider();
+        if (iocProvider instanceof JdonProvider) {
+            ((JdonProvider) iocProvider).getCss().destroyed(new ServletContextWrapper(fc.getServletContext()));
+        }
+        fc.getPluginManager().dispose(fc.getServletContext());
         fc = null;
     }
 }

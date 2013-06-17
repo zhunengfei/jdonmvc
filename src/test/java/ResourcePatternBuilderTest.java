@@ -1,13 +1,27 @@
 import com.jdon.mvc.rs.ResourcePatternBuilder;
 import org.junit.Test;
 
+import java.util.regex.Pattern;
+
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 
 public class ResourcePatternBuilderTest {
-	
-	@Test
+
+    @Test
+    public void testIdentify() {
+        Pattern compile = Pattern.compile("^[a-zA-Z_\\$][[a-zA-Z]_0-9\\$]+");
+        assertTrue(compile.matcher("name").matches());
+        assertTrue(compile.matcher("_name").matches());
+        assertTrue(compile.matcher("$gegwegwe").matches());
+        assertTrue(compile.matcher("_$$$$").matches());
+        assertTrue(compile.matcher("$$ewgwegw").matches());
+        assertFalse(compile.matcher("333").matches());
+        assertFalse(compile.matcher("3gwegwegwe").matches());
+
+    }
+
+    @Test
 	public void testPatternResolve1() {
 		ResourcePatternBuilder builder = new ResourcePatternBuilder();
 		builder.build("/user/:id");

@@ -4,6 +4,8 @@ import com.jdon.mvc.annotations.Plugin;
 import com.jdon.mvc.core.FrameWorkContext;
 import com.jdon.mvc.plugin.JdonMvcPlugin;
 
+import javax.servlet.ServletContext;
+
 /**
  * Oauth协议客户端，只支持Oauth2
  * User: oojdon
@@ -19,7 +21,7 @@ public class OauthClient implements JdonMvcPlugin {
     }
 
     @Override
-    public void dispose() {
+    public void dispose(ServletContext servletContext) {
 
     }
 }

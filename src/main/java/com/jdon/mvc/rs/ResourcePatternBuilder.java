@@ -31,7 +31,7 @@ public class ResourcePatternBuilder {
         }
 
         //再把路径变换成一个正则表达式, ([^/])+表示非/的任意字符重复一次以上
-        String patternString = path.replaceAll(":([a-zA-Z_0-9.]+)", "([^/]+)");
+        String patternString = path.replaceAll(":[a-zA-Z_0-9.]+", "([^/]+)");
         LOG.info("--->build regex in PatternBuilder:" + patternString);
         this.pattern = Pattern.compile(patternString);
     }

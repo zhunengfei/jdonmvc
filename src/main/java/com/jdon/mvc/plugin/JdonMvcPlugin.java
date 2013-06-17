@@ -2,6 +2,8 @@ package com.jdon.mvc.plugin;
 
 import com.jdon.mvc.core.FrameWorkContext;
 
+import javax.servlet.ServletContext;
+
 /**
  * User: oojdon
  * Date: 13-6-12
@@ -11,5 +13,5 @@ public interface JdonMvcPlugin {
 
     void init(FrameWorkContext fc);
 
-    void dispose();
+    void dispose(ServletContext servletContext);
 }

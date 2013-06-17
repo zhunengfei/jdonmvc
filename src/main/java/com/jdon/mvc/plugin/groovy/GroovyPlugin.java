@@ -8,6 +8,7 @@ import groovy.lang.GroovyClassLoader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -48,7 +49,7 @@ public class GroovyPlugin implements JdonMvcPlugin {
     }
 
     @Override
-    public void dispose() {
+    public void dispose(ServletContext servletContext) {
 
     }
 }

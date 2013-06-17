@@ -2,6 +2,7 @@ package com.jdon.mvc.core;
 
 import com.jdon.mvc.plugin.JdonMvcPlugin;
 
+import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +29,9 @@ public class PluginManager {
         }
     }
 
-    public void dispose() {
+    public void dispose(ServletContext servletContext) {
         for (JdonMvcPlugin plugin : this.plugins) {
-            plugin.dispose();
+            plugin.dispose(servletContext);
         }
     }
 

@@ -15,7 +15,7 @@ public class FrameWorkContext {
 
     private final ResourceManager resourceManager;
 
-    private final IocProvider beanProvider;
+    private IocProvider beanProvider;
 
     private final TemplateManager templateManager;
 
@@ -29,11 +29,9 @@ public class FrameWorkContext {
     private Properties props = new Properties();
 
     public FrameWorkContext(ConverterManager converterManager,
-                            ResourceManager resourceManager, IocProvider beanProvider,
-                            TemplateManager templateManager, ServletContext servletContext) {
+                            ResourceManager resourceManager, TemplateManager templateManager, ServletContext servletContext) {
         this.converterManager = converterManager;
         this.resourceManager = resourceManager;
-        this.beanProvider = beanProvider;
         this.templateManager = templateManager;
         this.servletContext = servletContext;
     }
@@ -48,6 +46,10 @@ public class FrameWorkContext {
 
     public IocProvider getIocProvider() {
         return beanProvider;
+    }
+
+    public void setBeanProvider(IocProvider beanProvider) {
+        this.beanProvider = beanProvider;
     }
 
     public TemplateManager getTemplateManager() {
@@ -77,4 +79,6 @@ public class FrameWorkContext {
     public ServletContext getServletContext() {
         return servletContext;
     }
+
+
 }
