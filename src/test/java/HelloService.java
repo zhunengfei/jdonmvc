@@ -6,9 +6,9 @@ import com.jdon.annotation.Service;
  * Time: 下午5:18
  */
 @Service("helloService")
-public class HelloService {
+public class HelloService implements Hello {
 
     public void hello() {
-        System.out.println("hello spring");
+        System.out.println("hello ioc");
     }
 }
