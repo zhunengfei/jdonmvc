@@ -7,9 +7,7 @@ import javax.servlet.ServletException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: Asion
@@ -17,6 +15,9 @@ import java.util.Set;
  * Time: 下午3:45
  */
 public class MockServletContext implements ServletContext {
+
+    private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
+
 
     @Override
     public String getContextPath() {
@@ -120,7 +121,7 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public Object getAttribute(String name) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return attributes.get(name);
     }
 
     @Override
@@ -130,7 +131,7 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public void setAttribute(String name, Object object) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        attributes.put(name, object);
     }
 
     @Override

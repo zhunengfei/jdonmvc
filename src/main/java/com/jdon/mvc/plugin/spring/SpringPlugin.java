@@ -1,5 +1,6 @@
 package com.jdon.mvc.plugin.spring;
 
+import com.jdon.mvc.annotations.Plugin;
 import com.jdon.mvc.core.FrameWorkContext;
 import com.jdon.mvc.plugin.JdonMvcPlugin;
 import com.jdon.mvc.util.TypeUtil;
@@ -14,6 +15,7 @@ import javax.servlet.ServletContext;
  * Date: 13-6-17
  * Time: 下午4:42
  */
+@Plugin
 public class SpringPlugin implements JdonMvcPlugin {
 
     private final static Log LOG = LogFactory.getLog(SpringPlugin.class);

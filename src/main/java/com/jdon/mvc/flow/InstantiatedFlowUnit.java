@@ -68,19 +68,19 @@ public class InstantiatedFlowUnit implements FlowUnit {
             }
         } catch (SecurityException e) {
             throw new SettingException(
-                    "Unable to set field annotation by @In or @Service"
+                    "Unable to set field annotation by @In or @Service "
                             + e.getMessage(), e);
         } catch (IllegalArgumentException e) {
             throw new SettingException(
-                    "Unable to set field annotation by @In or @Service"
+                    "Unable to set field annotation by @In or @Service "
                             + e.getMessage(), e);
         } catch (InstantiationException e) {
             throw new RuntimeException(
-                    "Unable to instantiation your restful Java class,please make default constructer for:"
+                    "Unable to instantiation your restful Java class,please make default constructor for:"
                             + e.getMessage(), e);
         } catch (IllegalAccessException e) {
             throw new SettingException(
-                    "Unable to set field annotation by @In or @Service"
+                    "Unable to set field annotation by @In or @Service "
                             + e.getMessage(), e);
         }
 

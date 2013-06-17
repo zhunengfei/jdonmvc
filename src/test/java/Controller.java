@@ -1,5 +1,6 @@
 import com.jdon.mvc.RestFilter;
 import com.jdon.mvc.annotations.In;
+import com.jdon.mvc.ioc.BeanType;
 import com.jdon.mvc.represent.Html;
 import com.jdon.mvc.represent.Represent;
 import com.jdon.mvc.rs.method.GET;
@@ -24,9 +25,13 @@ public class Controller {
     @In
     private HttpServletRequest request;
 
+    @In(value = "helloService",type = BeanType.SERVICE)
+    private HelloService helloService;
+
 
     @Path("/")
     public Represent index(User user) {
+        helloService.hello();
         return new Html("hello", "user", user);
     }
 
