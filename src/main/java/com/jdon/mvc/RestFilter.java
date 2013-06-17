@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <pre>
  * 	<filter>
  *      <filter-name>RestFilter</filter-name>
- *      <filter-class>com.jdon.rest.RestFilter</filter-class>
+ *      <filter-class>com.jdon.mvc.RestFilter</filter-class>
  *  </filter>
  *
  *  <filter-mapping>
