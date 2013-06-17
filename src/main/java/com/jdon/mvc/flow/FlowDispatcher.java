@@ -49,6 +49,8 @@ public class FlowDispatcher implements Dispatcher {
                 } catch (RepresentationRenderException rrx) {
                     throw new ServletException(rrx);
                 }
+            } else {
+                throw new ServletException(e);
             }
         }
 

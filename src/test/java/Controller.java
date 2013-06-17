@@ -26,7 +26,7 @@ public class Controller {
     private HttpServletRequest request;
 
     @In(value = "helloService",type = BeanType.SERVICE)
-    private HelloService helloService;
+    private Hello helloService;
 
 
     @Path("/")
