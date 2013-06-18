@@ -60,7 +60,7 @@ public class FlowDispatcher implements Dispatcher {
     public void destroy() {
         LOG.info("Destroy dispatcher,Destroy the framework context");
         IocProvider iocProvider = fc.getIocProvider();
-        if (iocProvider instanceof JdonProvider) {
+        if (iocProvider != null && iocProvider instanceof JdonProvider) {
             ((JdonProvider) iocProvider).getCss().destroyed(new ServletContextWrapper(fc.getServletContext()));
         }
         fc.getPluginManager().dispose(fc.getServletContext());

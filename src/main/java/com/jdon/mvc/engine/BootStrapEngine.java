@@ -11,6 +11,7 @@ import com.jdon.mvc.plugin.JdonMvcPlugin;
 import com.jdon.mvc.template.TemplateManager;
 import com.jdon.mvc.util.ClassUtil;
 import com.jdon.mvc.util.ReflectionUtil;
+import com.jdon.mvc.util.TypeUtil;
 import com.jdon.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -30,6 +31,9 @@ import java.util.Properties;
 public class BootStrapEngine {
 
     private final static Log LOG = LogFactory.getLog(BootStrapEngine.class);
+
+    //是否启动Jdon容器，框架的默认配置是启动的
+    private final static String INIT_JDON = "initJdon?";
 
 
     public FrameWorkContext bootStrap(final ServletContext servletContext) {
@@ -72,7 +76,10 @@ public class BootStrapEngine {
         TemplateManager templateManager = new TemplateManager(servletContext);
 
         FrameWorkContext frameWorkContext = new FrameWorkContext(converterManager, resourceManager, templateManager, servletContext);
-        frameWorkContext.setBeanProvider(initJdonIoc(servletContext));
+
+        if (TypeUtil.boolTrue(props.getProperty(INIT_JDON))) {
+            frameWorkContext.setBeanProvider(initJdonIoc(servletContext));
+        }
 
         frameWorkContext.setProps(props);
 

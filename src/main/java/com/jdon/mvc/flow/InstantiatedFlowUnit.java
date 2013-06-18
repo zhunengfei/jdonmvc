@@ -35,7 +35,7 @@ public class InstantiatedFlowUnit implements FlowUnit {
 
     public void process(FlowContext context) {
         RequestTargetInfo resource = context.requestTargetInfo();
-        IocProvider beanProvider = context.fwContext().getIocProvider();
+
         Class<?> type = resource.getHandler().getBelongType();
 
         List<FieldAnnotation<In>> services = ReflectionUtil
@@ -60,10 +60,16 @@ public class InstantiatedFlowUnit implements FlowUnit {
                 } else {
                     String service = annotation.getAnnotation().value();
                     BeanType beanType = annotation.getAnnotation().type();
-                    if (!service.equals(""))
-                        f.set(instance, beanProvider.getBean(service, beanType, Env.ctx()));
-                    else
-                        f.set(instance, beanProvider.getBean(f.getName(), beanType, Env.ctx()));
+
+                    IocProvider beanProvider = context.fwContext().getIocProvider();
+
+                    if (beanProvider != null) {
+                        if (!service.equals(""))
+                            f.set(instance, beanProvider.getBean(service, beanType, Env.ctx()));
+                        else
+                            f.set(instance, beanProvider.getBean(f.getName(), beanType, Env.ctx()));
+                    }
+
                 }
             }
         } catch (SecurityException e) {
