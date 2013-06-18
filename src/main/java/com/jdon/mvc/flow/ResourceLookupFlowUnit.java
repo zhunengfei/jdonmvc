@@ -7,6 +7,7 @@ import com.jdon.mvc.core.ResourceManager;
 import com.jdon.mvc.http.RequestTargetInfo;
 import com.jdon.mvc.http.WebRequest;
 import com.jdon.mvc.rs.ResourceRequestInfo;
+import com.jdon.mvc.util.StringUtils;
 import com.jdon.mvc.util.UrlHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,7 +55,7 @@ public class ResourceLookupFlowUnit implements FlowUnit {
         } else if ("GET".equalsIgnoreCase(request.getMethod())) {
             throw new IllegalArgumentException("You can't use " + OVERLOAD_POST + " parameter on a GET request. Use POST instead.");
         }
-        verb = verb.toUpperCase();
+        verb = StringUtils.upperFirstLowerOther(verb);
         LOG.debug("---->the http method is:" + verb);
         return verb;
     }

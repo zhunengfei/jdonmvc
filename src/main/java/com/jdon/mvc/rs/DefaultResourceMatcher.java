@@ -23,9 +23,9 @@ public class DefaultResourceMatcher implements ResourceMatcher {
 
     private List<String> params;
 
-    private String verb = GET.class.getSimpleName(); //对资源的操作动词
-
     private Handler handler;
+
+    private String verb = "Get";
 
     public DefaultResourceMatcher(Handler handler, List<String> keys) {
         Method m = handler.getMethod();
@@ -70,17 +70,17 @@ public class DefaultResourceMatcher implements ResourceMatcher {
 
 
     private void extractHttpVerb(Method m) {
-        if (m.getAnnotation(GET.class) != null) {
-            this.verb = GET.class.getSimpleName();
+        if (m.getAnnotation(Get.class) != null) {
+            this.verb = Get.class.getSimpleName();
         }
-        if (m.getAnnotation(POST.class) != null) {
-            this.verb = POST.class.getSimpleName();
+        if (m.getAnnotation(Post.class) != null) {
+            this.verb = Post.class.getSimpleName();
         }
         if (m.getAnnotation(Delete.class) != null) {
             this.verb = Delete.class.getSimpleName();
         }
-        if (m.getAnnotation(PUT.class) != null) {
-            this.verb = PUT.class.getSimpleName();
+        if (m.getAnnotation(Put.class) != null) {
+            this.verb = Put.class.getSimpleName();
         }
 
     }

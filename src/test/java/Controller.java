@@ -3,7 +3,7 @@ import com.jdon.mvc.annotations.In;
 import com.jdon.mvc.ioc.BeanType;
 import com.jdon.mvc.represent.Html;
 import com.jdon.mvc.represent.Represent;
-import com.jdon.mvc.rs.method.GET;
+import com.jdon.mvc.rs.method.Get;
 import com.jdon.mvc.rs.method.Path;
 import moc.MockFilterChain;
 import moc.MockFilterConfig;
@@ -37,13 +37,13 @@ public class Controller {
 
 
     @Path("/blog/:id")
-    @GET
+    @Get
     public void show(int id) {
         System.out.println(id);
     }
 
     @Path("/blog/:id/sub/:sub")
-    @GET
+    @Get
     public void show(int id, int sub) {
         System.out.println(id + sub);
     }

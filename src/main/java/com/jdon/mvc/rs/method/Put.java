@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 /**
  * User: Asion
  * Date: 13-6-4
- * Time: 下午1:21
+ * Time: 下午1:20
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TRACE {
+public @interface Put {
 }
