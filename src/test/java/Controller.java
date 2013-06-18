@@ -54,8 +54,9 @@ public class Controller {
     }
 
     @Path("/binding")
-    public void testBinding(Code code) {
+    public void testBinding(Code code,String name) {
         System.out.println(code);
+        System.out.println(name);
     }
 
 
@@ -78,6 +79,7 @@ public class Controller {
 
         MockRequest enumRequest =new MockRequest(cfg.getServletContext(),"Get","/binding");
         enumRequest.addParam("code","yes");
+        enumRequest.addParam("name","test");
         filter.doFilter(enumRequest, new MockResponse(), chain);
 
 
