@@ -76,8 +76,8 @@ public class DefaultResourceMatcher implements ResourceMatcher {
         if (m.getAnnotation(POST.class) != null) {
             this.verb = POST.class.getSimpleName();
         }
-        if (m.getAnnotation(DELETE.class) != null) {
-            this.verb = DELETE.class.getSimpleName();
+        if (m.getAnnotation(Delete.class) != null) {
+            this.verb = Delete.class.getSimpleName();
         }
         if (m.getAnnotation(PUT.class) != null) {
             this.verb = PUT.class.getSimpleName();
