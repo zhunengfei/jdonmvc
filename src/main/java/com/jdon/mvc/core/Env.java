@@ -21,10 +21,6 @@ public class Env {
 
     private static ThreadLocal<Env> locals = new ThreadLocal<Env>();
 
-    public <T> T getBean(Class<T> requiredType) {
-        return null;
-    }
-
     public static Env get() {
         return locals.get();
     }
