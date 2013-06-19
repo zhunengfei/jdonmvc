@@ -17,6 +17,10 @@ public class Text implements Represent {
         this.text = text;
     }
 
+    public Text create(String text) {
+        return new Text(text);
+    }
+
     @Override
     public void render(FrameWorkContext fc) throws RepresentationRenderException {
         Env.res().setContentType(TYPE + ";charset=UTF-8");

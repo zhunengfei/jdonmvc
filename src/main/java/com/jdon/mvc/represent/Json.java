@@ -18,6 +18,10 @@ public class Json implements Represent {
         o = data;
     }
 
+    public static Json create(Object o) {
+        return new Json(o);
+    }
+
     @Override
     public void render(FrameWorkContext fc) throws RepresentationRenderException {
         HttpServletResponse res = Env.res();
