@@ -1,5 +1,6 @@
 import com.jdon.mvc.RestFilter;
 import com.jdon.mvc.annotations.In;
+import com.jdon.mvc.http.RequestBody;
 import com.jdon.mvc.ioc.BeanType;
 import com.jdon.mvc.represent.Html;
 import com.jdon.mvc.represent.Represent;
@@ -24,6 +25,9 @@ public class Controller {
 
     @In
     private HttpServletRequest request;
+
+    @In
+    private RequestBody body;
 
     @In(value = "helloService",type = BeanType.SERVICE)
     private Hello helloService;
