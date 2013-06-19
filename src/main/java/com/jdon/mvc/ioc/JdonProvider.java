@@ -23,7 +23,7 @@ public class JdonProvider implements IocProvider {
 
     @Override
     public Object getBean(String key, BeanType beanType, ServletContext sc) {
-        if (beanType == BeanType.SERVICE) {
+        if (beanType == BeanType.service) {
             return WebAppUtil.getService(key, sc);
         } else {
             return WebAppUtil.getComponentInstance(key, sc);

@@ -26,5 +26,5 @@ public @interface In {
 
     String value() default "";
 
-    BeanType type() default BeanType.SERVICE;
+    BeanType type() default BeanType.service;
 }

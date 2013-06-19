@@ -29,7 +29,7 @@ public class Controller {
     @In
     private RequestBody body;
 
-    @In(value = "helloService",type = BeanType.SERVICE)
+    @In("helloService")
     private Hello helloService;
 
 
@@ -58,7 +58,7 @@ public class Controller {
     }
 
     @Path("/binding")
-    public void testBinding(Code code,String name) {
+    public void testBinding(Code code, String name) {
         System.out.println(code);
         System.out.println(name);
     }
@@ -78,12 +78,12 @@ public class Controller {
         filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/blog/3/sub/4"), new MockResponse(), chain);
 
         MockRequest listRequest = new MockRequest(cfg.getServletContext(), "Get", "/list");
-        listRequest.addMultiParam("list",new String[]{"111","222"});
+        listRequest.addMultiParam("list", new String[]{"111", "222"});
         filter.doFilter(listRequest, new MockResponse(), chain);
 
-        MockRequest enumRequest =new MockRequest(cfg.getServletContext(),"Get","/binding");
-        enumRequest.addParam("code","yes");
-        enumRequest.addParam("name","test");
+        MockRequest enumRequest = new MockRequest(cfg.getServletContext(), "Get", "/binding");
+        enumRequest.addParam("code", "yes");
+        enumRequest.addParam("name", "test");
         filter.doFilter(enumRequest, new MockResponse(), chain);
 
 

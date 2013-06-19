@@ -10,8 +10,8 @@ package com.jdon.mvc.ioc;
  */
 public enum BeanType {
 
-    SERVICE,
+    service,
 
-    COMPONENT
+    component
 
 }
