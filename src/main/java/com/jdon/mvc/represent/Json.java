@@ -2,23 +2,21 @@ package com.jdon.mvc.represent;
 
 import com.jdon.mvc.core.Env;
 import com.jdon.mvc.core.FrameWorkContext;
-import com.jdon.mvc.util.JSONWriter;
+import com.jdon.mvc.util.JsonUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Json implements Represent {
-	
-	private static final String TYPE = MediaType.APPLICATION_JSON;
-	
-	private static final int MAXIMUM_DEPTH_DEFAULT = 3;
 
-	private Object o;
-	
-	public Json(Object data){
-		o = data;
-	}
+    private static final String TYPE = MediaType.APPLICATION_JSON;
+
+    private Object o;
+
+    public Json(Object data) {
+        o = data;
+    }
 
     @Override
     public void render(FrameWorkContext fc) throws RepresentationRenderException {
@@ -26,7 +24,7 @@ public class Json implements Represent {
         res.setContentType(TYPE + ";charset=UTF-8");
         try {
             PrintWriter pw = res.getWriter();
-            pw.write(new JSONWriter(MAXIMUM_DEPTH_DEFAULT).write(o));
+            pw.write(JsonUtil.objectToJson(o));
             pw.flush();
             pw.close();
         } catch (IOException e) {
@@ -34,6 +32,6 @@ public class Json implements Represent {
         }
 
     }
-    
+
 
 }

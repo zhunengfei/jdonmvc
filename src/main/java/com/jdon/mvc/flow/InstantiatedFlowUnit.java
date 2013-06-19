@@ -10,11 +10,11 @@ import com.jdon.mvc.http.RequestTargetInfo;
 import com.jdon.mvc.ioc.BeanType;
 import com.jdon.mvc.rs.java.SettingException;
 import com.jdon.mvc.util.FieldAnnotation;
+import com.jdon.mvc.util.FileUtils;
 import com.jdon.mvc.util.ReflectionUtil;
 import com.jdon.mvc.validation.Validation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.util.FileCopyUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -120,7 +120,7 @@ public class InstantiatedFlowUnit implements FlowUnit {
         if (bodyStream == null) {
             return requestBody;
         }
-        String body = FileCopyUtils.copyToString(new InputStreamReader(bodyStream, FORM_CHARSET));
+        String body = FileUtils.copyToString(new InputStreamReader(bodyStream, FORM_CHARSET));
         requestBody.setContent(body);
         requestBody.setType(Env.req().getContentType());
         return requestBody;
