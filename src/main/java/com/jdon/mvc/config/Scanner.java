@@ -1,7 +1,7 @@
 package com.jdon.mvc.config;
 
 import com.jdon.mvc.annotations.Plugin;
-import com.jdon.mvc.rs.method.Path;
+import com.jdon.mvc.annotations.Path;
 import com.jdon.mvc.util.AnnotationUtils;
 
 import javax.servlet.ServletContext;

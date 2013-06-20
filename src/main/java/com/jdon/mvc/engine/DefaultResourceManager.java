@@ -9,7 +9,7 @@ import com.jdon.mvc.rs.InvalidResourceException;
 import com.jdon.mvc.rs.ResourceMatcher;
 import com.jdon.mvc.rs.ResourceRequestInfo;
 import com.jdon.mvc.rs.java.Handler;
-import com.jdon.mvc.rs.method.Path;
+import com.jdon.mvc.annotations.Path;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -84,9 +84,6 @@ public class DefaultResourceManager implements ResourceManager {
         Path mapping = m.getAnnotation(Path.class);
         if (mapping == null)
             return false;
-        if (mapping.value().length() == 0) {
-            return false;
-        }
         if (Modifier.isStatic(m.getModifiers())) {
             return false;
         }

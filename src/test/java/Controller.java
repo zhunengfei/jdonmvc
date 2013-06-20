@@ -2,14 +2,11 @@ import com.jdon.mvc.Constant;
 import com.jdon.mvc.RestFilter;
 import com.jdon.mvc.annotations.In;
 import com.jdon.mvc.http.RequestBody;
-import com.jdon.mvc.ioc.BeanType;
 import com.jdon.mvc.represent.Html;
 import com.jdon.mvc.represent.Represent;
-import com.jdon.mvc.rs.method.Get;
-import com.jdon.mvc.rs.method.Path;
+import com.jdon.mvc.annotations.Path;
 import moc.*;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -40,13 +37,11 @@ public class Controller {
 
 
     @Path("/blog/:id")
-    @Get
     public void show(int id) {
         System.out.println(id);
     }
 
     @Path("/blog/:id/sub/:sub")
-    @Get
     public void show(int id, int sub) {
         System.out.println(id + sub);
     }
@@ -67,8 +62,8 @@ public class Controller {
 
         RestFilter filter = new RestFilter();
         MockFilterConfig cfg = new MockFilterConfig();
-        MockServletContext servletContext = (MockServletContext)cfg.getServletContext();
-        servletContext.addInitParameter(Constant.TEMPLATE_FACTORY,"com.jdon.mvc.template.velocity.VelocityTemplateFactory");
+        MockServletContext servletContext = (MockServletContext) cfg.getServletContext();
+        servletContext.addInitParameter(Constant.TEMPLATE_FACTORY, "com.jdon.mvc.template.velocity.VelocityTemplateFactory");
 
         filter.init(cfg);
 

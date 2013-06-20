@@ -1,8 +1,8 @@
 package com.jdon.mvc.rs;
 
+import com.jdon.mvc.annotations.Path;
 import com.jdon.mvc.config.ConfigException;
 import com.jdon.mvc.rs.java.Handler;
-import com.jdon.mvc.rs.method.*;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -25,17 +25,28 @@ public class DefaultResourceMatcher implements ResourceMatcher {
 
     private Handler handler;
 
-    private String verb = "Get";
+    private String verb = "get";
 
     public DefaultResourceMatcher(Handler handler, List<String> keys) {
         Method m = handler.getMethod();
         Path path = m.getAnnotation(Path.class);
-        String url = path.value();
+        String definePath = path.value();
+        String url = definePath;
+        String lowerPath = definePath.toLowerCase();
+        if (lowerPath.length() > 4) {
+            if (lowerPath.startsWith("get:") || lowerPath.startsWith("post:") || lowerPath.startsWith("put:") || lowerPath.startsWith("delete:")) {
+                verb = lowerPath.substring(0, 4);
+                url = definePath.substring(5);
+            }
+        }
+
+        if (!url.startsWith("/")) {
+            url = "/" + url;
+        }
         ResourcePatternBuilder builder = new ResourcePatternBuilder();
         builder.build(url);
         pattern = builder.getPattern();
         params = builder.getParamList();
-        extractHttpVerb(m);
         if (keys.contains(generateKey()))
             throw new ConfigException(
                     "duplicate resource exception ,pls check the path:["
@@ -66,23 +77,6 @@ public class DefaultResourceMatcher implements ResourceMatcher {
                     map.put(params.get(i), m.group(i + 1));
             }
         return map;
-    }
-
-
-    private void extractHttpVerb(Method m) {
-        if (m.getAnnotation(Get.class) != null) {
-            this.verb = Get.class.getSimpleName();
-        }
-        if (m.getAnnotation(Post.class) != null) {
-            this.verb = Post.class.getSimpleName();
-        }
-        if (m.getAnnotation(Delete.class) != null) {
-            this.verb = Delete.class.getSimpleName();
-        }
-        if (m.getAnnotation(Put.class) != null) {
-            this.verb = Put.class.getSimpleName();
-        }
-
     }
 
     private String generateKey() {

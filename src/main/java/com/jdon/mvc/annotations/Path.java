@@ -1,4 +1,4 @@
-package com.jdon.mvc.rs.method;
+package com.jdon.mvc.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,9 +8,11 @@ import java.lang.annotation.Target;
 /**
  * User: Asion
  * Date: 13-6-4
- * Time: 下午1:19
+ * Time: 上午10:50
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Post {
+public @interface Path {
+
+    String value() default "";
 }

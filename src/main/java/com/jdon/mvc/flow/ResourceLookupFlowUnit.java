@@ -55,8 +55,6 @@ public class ResourceLookupFlowUnit implements FlowUnit {
         } else if ("GET".equalsIgnoreCase(request.getMethod())) {
             throw new IllegalArgumentException("You can't use " + OVERLOAD_POST + " parameter on a GET request. Use POST instead.");
         }
-        verb = StringUtils.upperFirstLowerOther(verb);
-        LOG.debug("---->the http method is:" + verb);
-        return verb;
+        return verb.toLowerCase();
     }
 }

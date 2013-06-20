@@ -1,4 +1,4 @@
-import com.jdon.mvc.rs.method.Path
+import com.jdon.mvc.annotations.Path
 
 /**
  * User: oojdon
