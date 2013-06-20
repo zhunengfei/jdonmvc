@@ -51,7 +51,7 @@ public class Controller {
         System.out.println(list);
     }
 
-    @Path("/binding")
+    @Path("delete:/binding")
     public void testBinding(Code code, String name) {
         System.out.println(code);
         System.out.println(name);
@@ -78,7 +78,7 @@ public class Controller {
         listRequest.addMultiParam("list", new String[]{"111", "222"});
         filter.doFilter(listRequest, new MockResponse(), chain);
 
-        MockRequest enumRequest = new MockRequest(servletContext, "Get", "/binding");
+        MockRequest enumRequest = new MockRequest(servletContext, "delete", "/binding");
         enumRequest.addParam("code", "yes");
         enumRequest.addParam("name", "test");
         filter.doFilter(enumRequest, new MockResponse(), chain);

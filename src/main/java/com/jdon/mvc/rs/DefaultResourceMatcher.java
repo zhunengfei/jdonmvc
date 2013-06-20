@@ -37,7 +37,7 @@ public class DefaultResourceMatcher implements ResourceMatcher {
         if (lowerPath.length() > 4) {
             if (lowerPath.startsWith("get:") || lowerPath.startsWith("post:") || lowerPath.startsWith("put:") || lowerPath.startsWith("delete:")) {
                 verb = lowerPath.substring(0, lowerPath.indexOf(":"));
-                url = definePath.substring(5);
+                url = definePath.substring(lowerPath.indexOf(":") + 1);
             }
         }
 
