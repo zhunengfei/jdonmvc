@@ -1,5 +1,10 @@
 package com.jdon.mvc.http;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import java.io.IOException;
+
 /**
  * http协议的请求体
  * 如果是浏览器表单post请求，就是表单的参数对
@@ -20,6 +25,13 @@ public class RequestBody {
      * 类型
      */
     private String type = "";
+
+
+    public <T> T json2Object(Class<T> clazz) throws IOException {
+        return new ObjectMapper().readValue(content, clazz);
+    }
+
+
 
     public String getContent() {
         return content;
