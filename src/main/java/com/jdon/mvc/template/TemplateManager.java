@@ -2,12 +2,11 @@ package com.jdon.mvc.template;
 
 import com.jdon.mvc.Constant;
 import com.jdon.mvc.config.ConfigException;
-import com.jdon.mvc.template.velocity.VelocityTemplateFactory;
+import com.jdon.mvc.template.jsp.JspTemplateFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletContext;
-import java.lang.reflect.InvocationTargetException;
 
 public class TemplateManager {
 
@@ -19,15 +18,11 @@ public class TemplateManager {
         String templateFactory = servletContext
                 .getInitParameter(Constant.TEMPLATE_FACTORY);
         if (templateFactory == null)
-            templateFactoryLocator = new VelocityTemplateFactory();
+            templateFactoryLocator = new JspTemplateFactory();
         else {
             try {
-                templateFactoryLocator = (TemplateFactory) Class
-                        .forName(templateFactory).getDeclaredConstructor()
-                        .newInstance();
-            } catch (InvocationTargetException e) {
-                throw new ConfigException(e.getCause());
-            } catch (Exception e) {
+                templateFactoryLocator = (TemplateFactory) Class.forName(templateFactory).newInstance();
+            }  catch (Exception e) {
                 throw new ConfigException(e);
             }
         }

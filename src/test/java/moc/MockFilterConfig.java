@@ -11,6 +11,8 @@ import java.util.Enumeration;
  */
 public class MockFilterConfig implements FilterConfig {
 
+    private MockServletContext servletContext = new MockServletContext();
+
     @Override
     public String getFilterName() {
         return null;
@@ -18,7 +20,7 @@ public class MockFilterConfig implements FilterConfig {
 
     @Override
     public ServletContext getServletContext() {
-        return new MockServletContext();
+        return servletContext;
     }
 
     @Override

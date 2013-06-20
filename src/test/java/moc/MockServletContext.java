@@ -18,6 +18,12 @@ public class MockServletContext implements ServletContext {
 
     private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
+    private final Map<String, String> initParameters = new LinkedHashMap<String, String>();
+
+    public void addInitParameter(String name, String value) {
+        this.initParameters.put(name, value);
+    }
+
 
     @Override
     public String getContextPath() {
@@ -111,7 +117,7 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public String getInitParameter(String name) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.initParameters.get(name);
     }
 
     @Override

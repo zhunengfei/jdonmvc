@@ -1,3 +1,4 @@
+import com.jdon.mvc.Constant;
 import com.jdon.mvc.RestFilter;
 import com.jdon.mvc.annotations.In;
 import com.jdon.mvc.http.RequestBody;
@@ -6,11 +7,9 @@ import com.jdon.mvc.represent.Html;
 import com.jdon.mvc.represent.Represent;
 import com.jdon.mvc.rs.method.Get;
 import com.jdon.mvc.rs.method.Path;
-import moc.MockFilterChain;
-import moc.MockFilterConfig;
-import moc.MockRequest;
-import moc.MockResponse;
+import moc.*;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -68,27 +67,30 @@ public class Controller {
 
         RestFilter filter = new RestFilter();
         MockFilterConfig cfg = new MockFilterConfig();
+        MockServletContext servletContext = (MockServletContext)cfg.getServletContext();
+        servletContext.addInitParameter(Constant.TEMPLATE_FACTORY,"com.jdon.mvc.template.velocity.VelocityTemplateFactory");
+
         filter.init(cfg);
 
         MockFilterChain chain = new MockFilterChain();
-        MockRequest userRequest = new MockRequest(cfg.getServletContext(), "Get", "/");
+        MockRequest userRequest = new MockRequest(servletContext, "Get", "/");
         userRequest.addParam("user.name", "谢中生");
         filter.doFilter(userRequest, new MockResponse(), chain);
-        filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/blog/3"), new MockResponse(), chain);
-        filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/blog/3/sub/4"), new MockResponse(), chain);
+        filter.doFilter(new MockRequest(servletContext, "Get", "/blog/3"), new MockResponse(), chain);
+        filter.doFilter(new MockRequest(servletContext, "Get", "/blog/3/sub/4"), new MockResponse(), chain);
 
-        MockRequest listRequest = new MockRequest(cfg.getServletContext(), "Get", "/list");
+        MockRequest listRequest = new MockRequest(servletContext, "Get", "/list");
         listRequest.addMultiParam("list", new String[]{"111", "222"});
         filter.doFilter(listRequest, new MockResponse(), chain);
 
-        MockRequest enumRequest = new MockRequest(cfg.getServletContext(), "Get", "/binding");
+        MockRequest enumRequest = new MockRequest(servletContext, "Get", "/binding");
         enumRequest.addParam("code", "yes");
         enumRequest.addParam("name", "test");
         filter.doFilter(enumRequest, new MockResponse(), chain);
 
 
         //测试groovy
-        filter.doFilter(new MockRequest(cfg.getServletContext(), "Get", "/forum/44444"), new MockResponse(), chain);
+        filter.doFilter(new MockRequest(servletContext, "Get", "/forum/44444"), new MockResponse(), chain);
 
         filter.destroy();
 
