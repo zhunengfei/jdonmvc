@@ -33,9 +33,10 @@ public class DefaultResourceMatcher implements ResourceMatcher {
         String definePath = path.value();
         String url = definePath;
         String lowerPath = definePath.toLowerCase();
+        //长度大于4也就是get:的长度，开始提取动词
         if (lowerPath.length() > 4) {
             if (lowerPath.startsWith("get:") || lowerPath.startsWith("post:") || lowerPath.startsWith("put:") || lowerPath.startsWith("delete:")) {
-                verb = lowerPath.substring(0, 4);
+                verb = lowerPath.substring(0, lowerPath.indexOf(":"));
                 url = definePath.substring(5);
             }
         }
