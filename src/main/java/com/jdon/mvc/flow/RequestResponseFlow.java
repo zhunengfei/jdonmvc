@@ -1,5 +1,6 @@
 package com.jdon.mvc.flow;
 
+import com.jdon.mvc.converter.BindingException;
 import com.jdon.mvc.core.ActionException;
 import com.jdon.mvc.core.FlowContext;
 
@@ -18,7 +19,7 @@ public class RequestResponseFlow {
 	
 	protected List<FlowUnit> flows = new ArrayList<FlowUnit>();
 	
-	public void begin(FlowContext context) throws ActionException {
+	public void begin(FlowContext context) throws ActionException, BindingException {
 		customFlow();
 		if(flows.size() == 0) {
 			flows.add(new FormFileFlowUnit());

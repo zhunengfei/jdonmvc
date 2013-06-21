@@ -1,5 +1,6 @@
 package com.jdon.mvc.core;
 
+import com.jdon.mvc.converter.BindingException;
 import com.jdon.mvc.represent.Represent;
 import com.jdon.mvc.rs.java.Handler;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface ExceptionResolver {
 
-    Represent resolveException(
-            HttpServletRequest request, HttpServletResponse response, Handler handler, Exception ex);
+    Represent resolveActionException(HttpServletRequest request, HttpServletResponse response, Handler handler, ActionException ex);
+
+    Represent resolveBindingException(HttpServletRequest request, HttpServletResponse response, Handler handler, BindingException ex);
 }

@@ -1,5 +1,6 @@
 package com.jdon.mvc.flow;
 
+import com.jdon.mvc.converter.BindingException;
 import com.jdon.mvc.core.ActionException;
 import com.jdon.mvc.core.FlowContext;
 
@@ -11,6 +12,6 @@ import com.jdon.mvc.core.FlowContext;
 
 public interface FlowUnit {
 	
-	void process(FlowContext context) throws ActionException;
+	void process(FlowContext context) throws ActionException, BindingException;
 
 }

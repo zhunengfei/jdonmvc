@@ -2,6 +2,7 @@ package com.jdon.mvc.flow;
 
 import com.jdon.controller.context.web.ServletContextWrapper;
 import com.jdon.mvc.Constant;
+import com.jdon.mvc.converter.BindingException;
 import com.jdon.mvc.core.*;
 import com.jdon.mvc.engine.DefaultFlowContext;
 import com.jdon.mvc.http.RequestTargetInfo;
@@ -33,25 +34,47 @@ public class FlowDispatcher implements Dispatcher {
         return fc;
     }
 
+
+    /**
+     * 分派的时候可能发生两种错误
+     * 一个是ActionException，一个是BindingException，前者是框架运行时错误，后者是处理数据绑定时发生的错误
+     *
+     * @throws ServletException
+     */
     public void dispatch() throws ServletException {
 
         FlowContext ic = new DefaultFlowContext(fc);
 
         LOG.info(">>>Begin dispatch the request to JdonMVC's process flow");
 
+        ExceptionResolver exceptionResolver = fc.getExceptionResolver();
+
         try {
             new RequestResponseFlow().begin(ic);
         } catch (ActionException e) {
-            if (fc.getExceptionResolver() != null) {
+            RequestTargetInfo target = (RequestTargetInfo) ic.flashMap().get(Constant.RESOURCE);
+            if (exceptionResolver != null) {
                 try {
-                    RequestTargetInfo target = (RequestTargetInfo) ic.flashMap().get(Constant.RESOURCE);
-                    fc.getExceptionResolver().resolveException(Env.req(), Env.res(), target.getHandler(), e).render(fc);
+                    exceptionResolver.resolveActionException(Env.req(), Env.res(), target.getHandler(), e).render(fc);
                 } catch (RepresentationRenderException rrx) {
                     throw new ServletException(rrx);
                 }
             } else {
                 throw new ServletException(e);
             }
+        } catch (BindingException e) {
+            RequestTargetInfo target = (RequestTargetInfo) ic.flashMap().get(Constant.RESOURCE);
+            if (exceptionResolver != null) {
+                try {
+                    exceptionResolver.resolveBindingException(Env.req(), Env.res(), target.getHandler(), e).render(fc);
+                } catch (RepresentationRenderException rrx) {
+                    throw new ServletException(rrx);
+                }
+            } else {
+                throw new ServletException(e);
+            }
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
 
         LOG.info("<<<Finish process the request via JdonMVC's process flow");

@@ -1,6 +1,7 @@
 package com.jdon.mvc.flow;
 
 import com.jdon.mvc.Constant;
+import com.jdon.mvc.converter.BindingException;
 import com.jdon.mvc.core.Env;
 import com.jdon.mvc.core.FlowContext;
 import com.jdon.mvc.http.ParameterKey;
@@ -26,7 +27,7 @@ public class ParametersMappingFlowUnit implements FlowUnit {
 
     private final Log LOG = LogFactory.getLog(ParametersMappingFlowUnit.class);
 
-    public void process(FlowContext ic) {
+    public void process(FlowContext ic) throws BindingException {
         RequestTargetInfo target = ic.requestTargetInfo();
         Handler handler = target.getHandler();
 

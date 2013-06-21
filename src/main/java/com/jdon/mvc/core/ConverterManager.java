@@ -1,5 +1,6 @@
 package com.jdon.mvc.core;
 
+import com.jdon.mvc.converter.BindingException;
 import com.jdon.mvc.rs.java.MethodParameter;
 
 import java.util.Map;
@@ -12,6 +13,6 @@ import java.util.Map;
  */
 public interface ConverterManager {
 		
-	Object[] convert(Map<MethodParameter, Map<String, Object>> methodValue, Object[] args);
+	Object[] convert(Map<MethodParameter, Map<String, Object>> methodValue, Object[] args) throws BindingException;
 
 }

@@ -76,7 +76,7 @@ public class DefaultConverterManager implements ConverterManager {
 
     }
 
-    public Object[] convert(Map<MethodParameter, Map<String, Object>> methodValue, Object[] args) {
+    public Object[] convert(Map<MethodParameter, Map<String, Object>> methodValue, Object[] args) throws BindingException {
 
         for (Map.Entry<MethodParameter, Map<String, Object>> entry : methodValue.entrySet()) {
 
@@ -121,23 +121,28 @@ public class DefaultConverterManager implements ConverterManager {
     }
 
 
-    private Object convert(Class<?> clazz, Object value, Map<String, Object> map) {
+    private Object convert(Class<?> clazz, Object value, Map<String, Object> map) throws BindingException {
 
-        //枚举类型手动判断
-        if (clazz.isEnum()) {
-            return converterTypes.get(Enum.class).convert(clazz, value);
-        }
+        try {
+            //枚举类型手动判断
+            if (clazz.isEnum()) {
+                return converterTypes.get(Enum.class).convert(clazz, value);
+            }
 
-        if (converterTypes.get(clazz) != null) {
-            TypeConverter<?> c = converterTypes.get(clazz);
-            return c.convert(clazz, value);
-        } else {
-            return convertObject(clazz, map);
+            if (converterTypes.get(clazz) != null) {
+                TypeConverter<?> c = converterTypes.get(clazz);
+                return c.convert(clazz, value);
+            } else {
+                return convertObject(clazz, map);
+            }
+        } catch (Exception e) {
+            LOG.error("type convert occur exception", e);
+            throw new BindingException(e);
         }
     }
 
     private Object convertArray(Class<?> clazz, Object value,
-                                Map<String, Object> map) {
+                                Map<String, Object> map) throws BindingException {
         Class<?> type = clazz.getComponentType();
         Object converted = Array.newInstance(type, FormValueHelper.arrayValue(value).length);
         for (int i = 0; i < FormValueHelper.arrayValue(value).length; i++) {
@@ -146,29 +151,13 @@ public class DefaultConverterManager implements ConverterManager {
         return converted;
     }
 
-    private Object convertObject(Class<?> clazz, Map<String, Object> map) {
-        Object instance;
-        try {
-            instance = clazz.newInstance();
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                Object value = entry.getValue();
-                String key = entry.getKey();
-                String property = key.substring(key.indexOf(".") + 1);
-                BeanUtils.setProperty(instance, property, value);
-            }
-        } catch (InstantiationException e) {
-            LOG.error("can't instance the method parameter" + clazz.getClass()
-                    + e);
-            throw new SettingException(e);
-        } catch (IllegalAccessException e) {
-            LOG.error("can't instance the method parameter" + clazz.getClass()
-                    + e);
-            throw new SettingException(e);
-        } catch (InvocationTargetException e) {
-            LOG.error("can't instance the method parameter" + clazz.getClass()
-                    + e);
-            throw new SettingException(e);
-
+    private Object convertObject(Class<?> clazz, Map<String, Object> map) throws BindingException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        Object instance = clazz.newInstance();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            Object value = entry.getValue();
+            String key = entry.getKey();
+            String property = key.substring(key.indexOf(".") + 1);
+            BeanUtils.setProperty(instance, property, value);
         }
         return instance;
     }
