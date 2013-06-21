@@ -5,6 +5,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletContext;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 public class FrameWorkContext {
@@ -25,8 +27,15 @@ public class FrameWorkContext {
 
     private final ServletContext servletContext;
 
+    private List<ResourceInterceptor> resourceInterceptorList = new LinkedList<ResourceInterceptor>();
+
     //框架配置
     private Properties props = new Properties();
+
+
+    public void addResourceInterceptor(ResourceInterceptor interceptor) {
+        this.resourceInterceptorList.add(interceptor);
+    }
 
     public FrameWorkContext(ConverterManager converterManager,
                             ResourceManager resourceManager, TemplateManager templateManager, ServletContext servletContext) {
@@ -80,5 +89,7 @@ public class FrameWorkContext {
         return servletContext;
     }
 
-
+    public List<ResourceInterceptor> getResourceInterceptorList() {
+        return resourceInterceptorList;
+    }
 }

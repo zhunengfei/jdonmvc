@@ -7,6 +7,7 @@ import com.jdon.mvc.core.*;
 import com.jdon.mvc.engine.DefaultFlowContext;
 import com.jdon.mvc.http.RequestTargetInfo;
 import com.jdon.mvc.ioc.JdonProvider;
+import com.jdon.mvc.represent.Represent;
 import com.jdon.mvc.represent.RepresentationRenderException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,7 +56,10 @@ public class FlowDispatcher implements Dispatcher {
             RequestTargetInfo target = (RequestTargetInfo) ic.flashMap().get(Constant.RESOURCE);
             if (exceptionResolver != null) {
                 try {
-                    exceptionResolver.resolveActionException(Env.req(), Env.res(), target.getHandler(), e).render(fc);
+                    Represent represent = exceptionResolver.resolveActionException(Env.req(), Env.res(), target.getHandler(), e);
+                    if (represent != null) {
+                        represent.render(fc);
+                    }
                 } catch (RepresentationRenderException rrx) {
                     throw new ServletException(rrx);
                 }
@@ -66,7 +70,10 @@ public class FlowDispatcher implements Dispatcher {
             RequestTargetInfo target = (RequestTargetInfo) ic.flashMap().get(Constant.RESOURCE);
             if (exceptionResolver != null) {
                 try {
-                    exceptionResolver.resolveBindingException(Env.req(), Env.res(), target.getHandler(), e).render(fc);
+                    Represent represent = exceptionResolver.resolveBindingException(Env.req(), Env.res(), target.getHandler(), e);
+                    if (represent != null) {
+                        represent.render(fc);
+                    }
                 } catch (RepresentationRenderException rrx) {
                     throw new ServletException(rrx);
                 }

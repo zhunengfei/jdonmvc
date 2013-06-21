@@ -77,6 +77,15 @@ public class BootStrapEngine {
 
         FrameWorkContext frameWorkContext = new FrameWorkContext(converterManager, resourceManager, templateManager, servletContext);
 
+        Class<ExceptionResolver> exh = (Class<ExceptionResolver>) Scanner.scanExceptionHandlerClass(servletContext);
+        if (exh != null) {
+            try {
+                frameWorkContext.setExceptionResolver(exh.newInstance());
+            } catch (Exception e) {
+                throw new ConfigException("can not init exception handler", e);
+            }
+        }
+
         if (TypeUtil.boolTrue(props.getProperty(INIT_JDON))) {
             frameWorkContext.setBeanProvider(initJdonIoc(servletContext));
         }

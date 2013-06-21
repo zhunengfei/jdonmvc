@@ -14,11 +14,16 @@ import java.util.regex.Pattern;
  */
 public abstract class ResourceInterceptor {
 
-    abstract boolean pre(Handler handler);
+    /**
+     * 执行前,通过返回false来终止流程
+     * @param handler
+     * @return
+     */
+    public abstract boolean pre(Handler handler);
 
-    abstract void post(Handler handler, Represent represent);
+    public abstract void post(Handler handler, Represent represent);
 
-    abstract void after(Handler handler, Exception ex);
+    public abstract void after(Handler handler, Exception ex);
 
 
     /**

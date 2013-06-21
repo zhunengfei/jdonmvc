@@ -27,8 +27,7 @@ public class RequestResponseFlow {
 			flows.add(new ParametersMappingFlowUnit());
 			flows.add(new InstantiatedFlowUnit());
 			flows.add(new MethodExecuteFlowUnit());
-			flows.add(new ResourceResolveFlowUnit());		
-			
+
 		}
 		for(FlowUnit flow : flows)
 			flow.process(context);
