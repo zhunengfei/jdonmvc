@@ -6,7 +6,7 @@ java web framework working on jdon and spring
 
 java example:
 -----------------------
-      public class TestController {
+    public class TestController {
 
     private static DB db = new DB();
 
@@ -49,7 +49,6 @@ java example:
 
 groovy example:
 -----------------------
-
 
     @Path("/forum/:id")
     void show(int id) {
