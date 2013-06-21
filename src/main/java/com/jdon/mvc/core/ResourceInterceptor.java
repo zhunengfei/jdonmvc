@@ -3,19 +3,32 @@ package com.jdon.mvc.core;
 import com.jdon.mvc.represent.Represent;
 import com.jdon.mvc.rs.java.Handler;
 
+import java.util.regex.Pattern;
+
 /**
  * 拦截器
  * <p/>
- * 粒度问题？
  * User: Asion
  * Date: 13-6-9
  * Time: 上午10:03
  */
-public interface ResourceInterceptor {
+public abstract class ResourceInterceptor {
 
-    boolean pre(Handler handler);
+    abstract boolean pre(Handler handler);
 
-    void post(Handler handler, Represent represent);
+    abstract void post(Handler handler, Represent represent);
 
-    void after(Handler handler, Exception ex);
+    abstract void after(Handler handler, Exception ex);
+
+
+    /**
+     * 拦截路径，默认是全部，子类可覆盖
+     *
+     * @return
+     */
+    protected Pattern getUrlMatchPattern() {
+        return Pattern.compile("/*");
+    }
+
+
 }
