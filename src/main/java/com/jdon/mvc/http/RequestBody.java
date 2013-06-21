@@ -1,6 +1,5 @@
 package com.jdon.mvc.http;
 
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
