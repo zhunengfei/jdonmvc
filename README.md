@@ -1,10 +1,10 @@
-jdonmvc
+#jdonmvc
 =======
 
 java web framework working on jdon and spring
 
 
-java example:
+##java example:
 -----------------------
     public class TestController {
 
@@ -47,10 +47,19 @@ java example:
     }
 
 
-groovy example:
+##groovy example:
 -----------------------
 
     @Path("/forum/:id")
     void show(int id) {
         println id
     }
+
+##run the demo
+--------------------------
+
+* install maven
+* checkout the mvcdemo code
+* mvn jetty:run-exploded
+* open your browser,go http://localhost:8080/mvcdemo/
+
