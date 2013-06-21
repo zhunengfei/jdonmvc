@@ -1,10 +1,10 @@
-#jdonmvc
+jdonmvc
 =======
 
 java web framework working on jdon and spring
 
 
-##java example:
+java example:
 -----------------------
     public class TestController {
 
@@ -47,7 +47,7 @@ java web framework working on jdon and spring
     }
 
 
-##groovy example:
+groovy example:
 -----------------------
 
     @Path("/forum/:id")
@@ -55,11 +55,14 @@ java web framework working on jdon and spring
         println id
     }
 
-##run the demo
+run the demo
 --------------------------
 
 * install maven
-* checkout the mvcdemo code
-* mvn jetty:run-exploded
+* checkout the mvcdemo code, the address is [mvcdemo][]
+* go to maven home, then input mvn jetty:run-exploded
 * open your browser,go http://localhost:8080/mvcdemo/
+
+[mvcdemo]:https://github.com/oojdon/mvcdemo
+
 
