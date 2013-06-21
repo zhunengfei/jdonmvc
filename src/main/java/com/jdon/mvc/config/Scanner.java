@@ -9,8 +9,7 @@ import java.util.List;
 
 
 /**
- * responsible for loading the class that DEV provide
- * such as Restful,Convert and so on.
+ * 扫描器
  *
  * @author oojdon
  */
@@ -24,7 +23,6 @@ public class Scanner {
     public static List<Class<?>> scanPluginClass(final ServletContext context) {
         return AnnotationUtils.findAnnotations(context, Plugin.class);
     }
-
 
 
 }
