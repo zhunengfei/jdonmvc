@@ -19,5 +19,6 @@ public class RequestTargetInfoTest {
         ResourceRequestInfo info = new ResourceRequestInfo("/","","get");
         RequestTargetInfo targetInfo = new RequestTargetInfo(null,null,info);
         assertTrue(targetInfo.matchPattern(Pattern.compile(".*")));
+        assertTrue(Pattern.compile("^/bl.*").matcher("/blog").matches());
     }
 }

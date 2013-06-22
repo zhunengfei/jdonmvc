@@ -24,4 +24,8 @@ public class TestInterceptor extends ResourceInterceptor {
         System.out.println("post");
     }
 
+    @Override
+    public Pattern getUrlMatchPattern() {
+        return Pattern.compile("^/blog.*");
+    }
 }

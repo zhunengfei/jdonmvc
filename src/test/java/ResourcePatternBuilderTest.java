@@ -18,8 +18,9 @@ public class ResourcePatternBuilderTest {
         assertTrue(compile.matcher("$$ewgwegw").matches());
         assertFalse(compile.matcher("333").matches());
         assertFalse(compile.matcher("3gwegwegwe").matches());
-
     }
+
+
 
     @Test
 	public void testPatternResolve1() {
