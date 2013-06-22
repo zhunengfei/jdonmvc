@@ -4,6 +4,7 @@ import com.jdon.mvc.Constant;
 import com.jdon.mvc.core.ActionException;
 import com.jdon.mvc.core.FlowContext;
 import com.jdon.mvc.core.ResourceInterceptor;
+import com.jdon.mvc.http.RequestTargetInfo;
 import com.jdon.mvc.represent.Represent;
 import com.jdon.mvc.represent.RepresentationRenderException;
 import com.jdon.mvc.util.StringUtils;
@@ -34,10 +35,21 @@ public class MethodExecuteFlowUnit implements FlowUnit {
         try {
 
             List<ResourceInterceptor> resourceInterceptorList = context.fwContext().getResourceInterceptorList();
+            RequestTargetInfo target = (RequestTargetInfo) context.flashMap().get(Constant.RESOURCE);
 
+            for (ResourceInterceptor resourceInterceptor : resourceInterceptorList) {
+                if (target.matchPattern(resourceInterceptor.getUrlMatchPattern()) && !resourceInterceptor.pre(target.getHandler())) {
+                    return;
+                }
+            }
 
             Object represent = method.invoke(instance, args);
 
+            for (ResourceInterceptor resourceInterceptor : resourceInterceptorList) {
+                if (target.matchPattern(resourceInterceptor.getUrlMatchPattern())) {
+                    resourceInterceptor.post(target.getHandler(), represent == null ? null : (Represent) represent);
+                }
+            }
 
             LOG.info("the flow-unit of " + MethodExecuteFlowUnit.class.getName() + " finish");
             String extension = context.requestTargetInfo().getResourceInfo()

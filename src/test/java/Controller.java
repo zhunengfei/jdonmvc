@@ -29,7 +29,7 @@ public class Controller {
     private Hello helloService;
 
 
-    @Path("/")
+    @Path("get:/")
     public Represent index(User user) {
         helloService.hello();
         return new Html("hello", "user", user);
@@ -71,7 +71,7 @@ public class Controller {
         MockRequest userRequest = new MockRequest(servletContext, "Get", "/");
         userRequest.addParam("user.name", "谢中生");
         filter.doFilter(userRequest, new MockResponse(), chain);
-        filter.doFilter(new MockRequest(servletContext, "Get", "/blog/3x"), new MockResponse(), chain);
+        filter.doFilter(new MockRequest(servletContext, "Get", "/blog/3"), new MockResponse(), chain);
         filter.doFilter(new MockRequest(servletContext, "Get", "/blog/3/sub/4"), new MockResponse(), chain);
 
         MockRequest listRequest = new MockRequest(servletContext, "Get", "/list");

@@ -91,6 +91,8 @@ public class DefaultConverterManager implements ConverterManager {
                 args[methodParameter.getPosition()] = convertArray(originalType, value, map);
             }
 
+            //Hash todo
+
             //集合
             else if (Collection.class.isAssignableFrom(originalType)) {
                 Class<?> targetType = extractTargetFromCollection(methodParameter.getGenericType());

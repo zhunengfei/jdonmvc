@@ -23,16 +23,14 @@ public abstract class ResourceInterceptor {
 
     public abstract void post(Handler handler, Represent represent);
 
-    public abstract void after(Handler handler, Exception ex);
-
 
     /**
      * 拦截路径，默认是全部，子类可覆盖
      *
      * @return
      */
-    protected Pattern getUrlMatchPattern() {
-        return Pattern.compile("/*");
+    public Pattern getUrlMatchPattern() {
+        return Pattern.compile(".*");
     }
 
 

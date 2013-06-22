@@ -4,6 +4,7 @@ import com.jdon.mvc.rs.ResourceRequestInfo;
 import com.jdon.mvc.rs.java.Handler;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 /**
@@ -26,6 +27,11 @@ public class RequestTargetInfo {
         this.pathParam = pathParam;
         this.resourceInfo = resourceInfo;
     }
+
+    public boolean matchPattern(Pattern pattern) {
+        return pattern.matcher(resourceInfo.getUrl()).matches();
+    }
+
 
     public Handler getHandler() {
         return handler;

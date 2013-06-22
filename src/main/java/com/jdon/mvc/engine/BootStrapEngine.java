@@ -79,11 +79,12 @@ public class BootStrapEngine {
 
         Class<ExceptionResolver> exh = (Class<ExceptionResolver>) Scanner.scanExceptionHandlerClass(servletContext);
         if (exh != null) {
-            try {
-                frameWorkContext.setExceptionResolver(exh.newInstance());
-            } catch (Exception e) {
-                throw new ConfigException("can not init exception handler", e);
-            }
+            frameWorkContext.setExceptionResolver((ExceptionResolver) ClassUtil.instance(exh));
+        }
+
+        List<Class<?>> joinList = Scanner.scanInterceptorClass(servletContext);
+        for (Class<?> join : joinList) {
+            frameWorkContext.addResourceInterceptor((ResourceInterceptor) ClassUtil.instance(join));
         }
 
         if (TypeUtil.boolTrue(props.getProperty(INIT_JDON))) {
