@@ -16,11 +16,18 @@ public abstract class ResourceInterceptor {
 
     /**
      * 执行前,通过返回false来终止流程
+     *
      * @param handler
      * @return
      */
     public abstract boolean pre(Handler handler);
 
+    /**
+     * 执行后
+     *
+     * @param handler
+     * @param represent
+     */
     public abstract void post(Handler handler, Represent represent);
 
 
