@@ -26,7 +26,7 @@ import java.util.List;
 
 public class FormFileFlowUnit implements FlowUnit {
 
-    private final Log LOG = LogFactory.getLog(getClass());
+    private final Log LOG = LogFactory.getLog(FormFileFlowUnit.class);
 
     /**
      * 配置格式是1m,2M或者字节数量332325235

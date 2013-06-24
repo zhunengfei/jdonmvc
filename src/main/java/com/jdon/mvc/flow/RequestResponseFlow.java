@@ -22,8 +22,8 @@ public class RequestResponseFlow {
 	public void begin(FlowContext context) throws ActionException, BindingException {
 		customFlow();
 		if(flows.size() == 0) {
-			flows.add(new FormFileFlowUnit());
-			flows.add(new ResourceLookupFlowUnit());
+            flows.add(new ResourceLookupFlowUnit());
+            flows.add(new FormFileFlowUnit());
 			flows.add(new ParametersMappingFlowUnit());
 			flows.add(new InstantiatedFlowUnit());
 			flows.add(new MethodExecuteFlowUnit());
