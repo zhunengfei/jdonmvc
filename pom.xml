@@ -161,13 +161,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jruby</groupId>
-            <artifactId>jruby</artifactId>
-            <version>1.7.4</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>net.sf.fastupload</groupId>
             <artifactId>fastupload-core</artifactId>
             <version>0.5.4</version>
