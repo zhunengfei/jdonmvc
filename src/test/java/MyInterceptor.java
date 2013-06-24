@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Time: 上午10:45
  */
 @Join
-public class TestInterceptor extends ResourceInterceptor {
+public class MyInterceptor extends ResourceInterceptor {
 
     @Override
     public boolean pre(Handler handler) {

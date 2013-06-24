@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * Time: 下午9:52
  */
 @ExceptionHandler
-public class TestExceptionResolver implements ExceptionResolver {
+public class MyExceptionResolver implements ExceptionResolver {
 
     @Override
     public Represent resolveActionException(HttpServletRequest request, HttpServletResponse response, Handler handler, ActionException ex) {
