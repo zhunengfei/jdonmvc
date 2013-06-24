@@ -7,6 +7,7 @@ import com.jdon.mvc.http.FormFileImp;
 import com.jdon.mvc.util.StringUtils;
 import com.jdon.mvc.util.WebUtils;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -19,6 +20,7 @@ import java.util.List;
 /**
  * 文件上传解析
  * <p/>
+ *
  * @author oojdon
  */
 
@@ -26,7 +28,12 @@ public class FormFileFlowUnit implements FlowUnit {
 
     private final Log LOG = LogFactory.getLog(getClass());
 
-    private final static long sizeLimit = 2 * 1024 * 1024;
+    /**
+     * 配置格式是1m,2M或者字节数量332325235
+     */
+    private final static String MAXUPLOADSIZE = "maxUploadSize";
+
+    private static long sizeLimit = -1;
 
     private List<FileItem> fileItems;
 
@@ -36,9 +43,22 @@ public class FormFileFlowUnit implements FlowUnit {
         if (ServletFileUpload.isMultipartContent(Env.req())) {
             DiskFileItemFactory factory = createFactoryForDiskBasedFileItems();
             ServletFileUpload fileUploadHandler = new ServletFileUpload(factory);
+
+            String maxSizeSetting = context.fwContext().getConfigItem(MAXUPLOADSIZE);
+            if (StringUtils.isNotEmpty(maxSizeSetting)) {
+                if (maxSizeSetting.toLowerCase().indexOf("m") != -1) {
+                    maxSizeSetting = maxSizeSetting.replace("m", "").replace("M", "");
+                    sizeLimit = Integer.parseInt(maxSizeSetting) * 1024 * 1024;
+                } else {
+                    sizeLimit = Long.parseLong(maxSizeSetting);
+                }
+            }
+
             fileUploadHandler.setSizeMax(sizeLimit);
             try {
                 fileItems = fileUploadHandler.parseRequest(Env.req());
+            } catch (FileUploadBase.SizeLimitExceededException ex) {
+                throw new MaxUploadSizeException(sizeLimit, ex);
             } catch (FileUploadException e) {
                 LOG.warn("There was some problem parsing this multipart Env.req(), or someone is not sending a RFC1867 compatible multipart Env.req().", e);
             }

@@ -80,7 +80,21 @@ public class FlowDispatcher implements Dispatcher {
             } else {
                 throw new ServletException(e);
             }
-        } catch (Exception e) {
+        } catch (MaxUploadSizeException e) {
+            RequestTargetInfo target = (RequestTargetInfo) ic.flashMap().get(Constant.RESOURCE);
+            if (exceptionResolver != null) {
+                try {
+                    Represent represent = exceptionResolver.resolveUploadException(Env.req(), Env.res(), target.getHandler(), e);
+                    if (represent != null) {
+                        represent.render(fc);
+                    }
+                } catch (RepresentationRenderException rrx) {
+                    throw new ServletException(rrx);
+                }
+            } else {
+                throw new ServletException(e);
+            }
+        }catch (Exception e) {
             throw new ServletException(e);
         }
 

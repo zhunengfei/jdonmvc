@@ -2,6 +2,7 @@ import com.jdon.mvc.annotations.ExceptionHandler;
 import com.jdon.mvc.converter.BindingException;
 import com.jdon.mvc.core.ActionException;
 import com.jdon.mvc.core.ExceptionResolver;
+import com.jdon.mvc.flow.MaxUploadSizeException;
 import com.jdon.mvc.represent.Represent;
 import com.jdon.mvc.rs.java.Handler;
 
@@ -25,6 +26,12 @@ public class TestExceptionResolver implements ExceptionResolver {
     @Override
     public Represent resolveBindingException(HttpServletRequest request, HttpServletResponse response, Handler handler, BindingException ex) {
         System.out.println("occur binding exception");
+        return null;
+    }
+
+    @Override
+    public Represent resolveUploadException(HttpServletRequest request, HttpServletResponse response, Handler handler, MaxUploadSizeException ex) {
+        System.out.println("occur maxupload exception");
         return null;
     }
 }
