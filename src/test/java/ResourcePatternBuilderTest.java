@@ -10,7 +10,8 @@ public class ResourcePatternBuilderTest {
 
     @Test
     public void testIdentify() {
-        Pattern compile = Pattern.compile("[a-zA-Z_$][a-zA-Z_0-9_$]+");
+        Pattern compile = Pattern.compile("[a-zA-Z_$][a-zA-Z_0-9_$]*");
+        assertTrue(compile.matcher("a").matches());
         assertTrue(compile.matcher("name").matches());
         assertTrue(compile.matcher("_name").matches());
         assertTrue(compile.matcher("$gegwegwe").matches());

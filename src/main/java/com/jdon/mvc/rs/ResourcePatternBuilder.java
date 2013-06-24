@@ -25,14 +25,14 @@ public class ResourcePatternBuilder {
 
         //先提取出:identify中的路径变量
         //identify，只能以字母，$，下划线开头，然后是字母，$,_的重复
-        Matcher matcher = Pattern.compile(":([a-zA-Z_$][a-zA-Z_0-9_$]+)").matcher(path);
+        Matcher matcher = Pattern.compile(":([a-zA-Z_$][a-zA-Z_0-9_$]*)").matcher(path);
         while (matcher.find()) {
             String value = matcher.group(1);
             params.add(value);
         }
 
         //再把路径变换成一个正则表达式, ([^/])+表示非/的任意字符重复一次以上
-        String patternString = path.replaceAll(":[a-zA-Z_$][a-zA-Z_0-9_$]+", "([^/]+)");
+        String patternString = path.replaceAll(":[a-zA-Z_$][a-zA-Z_0-9_$]*", "([^/]+)");
         LOG.info("--->build regex in PatternBuilder:" + patternString);
         this.pattern = Pattern.compile(patternString);
     }
