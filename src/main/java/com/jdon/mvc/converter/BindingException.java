@@ -6,7 +6,7 @@ package com.jdon.mvc.converter;
  * Date: 13-6-21
  * Time: 下午2:00
  */
-public class BindingException extends Exception {
+public class BindingException extends RuntimeException {
 
     public BindingException() {
         super();
