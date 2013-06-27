@@ -44,6 +44,9 @@ public class RestFilter implements Filter {
 
     private Dispatcher dispatcher;
 
+    //默认对请求和进行编码
+    public static final String ENCODING = "UTF-8";
+
 
     @Override
     public void init(FilterConfig cfg) throws ServletException {
@@ -58,6 +61,9 @@ public class RestFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest httpReq = (HttpServletRequest) req;
         final HttpServletResponse httpResp = (HttpServletResponse) res;
+
+        httpReq.setCharacterEncoding(ENCODING);
+        httpResp.setCharacterEncoding(ENCODING);
 
         WebRequest request = new WebRequest(httpReq, dispatcher.getFc());
         Env.create(request, httpResp, servletContext);
