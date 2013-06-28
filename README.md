@@ -47,14 +47,6 @@ java example:
     }
 
 
-groovy example:
------------------------
-
-    @Path("/forum/:id")
-    void show(int id) {
-        println id
-    }
-
 run the demo
 --------------------------
 
