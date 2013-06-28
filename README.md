@@ -4,7 +4,7 @@ jdonmvc
 java web framework working on jdon and spring
 
 
-java example:
+write controller like this:
 -----------------------
     public class TestController {
 
