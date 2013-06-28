@@ -11,6 +11,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import javax.servlet.ServletContext;
 
 /**
+ * 要使用spring，就在classpath中放一个SpringContext.xml配置文件
+ * 然后在mvc.properties中设置useSpring?=true
  * User: Asion
  * Date: 13-6-17
  * Time: 下午4:42

@@ -9,18 +9,6 @@ import javax.servlet.ServletContext;
 
 
 /**
- * Spring的业务bean提供实现，如果要回到那个传统的SSH，可以从这里开始
- * <p/>
- * <context-param>
- * <param-name>contextConfigLocation</param-name>
- * <param-value>classpath:/SpringContext.xml</param-value>
- * </context-param>
- * <p/>
- * <p/>
- * <listener>
- * <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
- * </listener>
- *
  * @author oojdon
  */
 public class SpringProvider implements IocProvider {
