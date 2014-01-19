@@ -15,6 +15,8 @@ public interface TemplateFactory {
   
     void init(ServletContext servletContext);
 
+    String getSuffix();
+
     Template loadTemplate(String path) throws Exception;
 
 }

@@ -20,7 +20,7 @@ public class Redirect implements Represent {
     public void render(FrameWorkContext fc) throws RepresentationRenderException {
 
         try {
-            Env.res().sendRedirect(this.url);
+            Env.res().sendRedirect(Env.req().getContextPath() + url);
         } catch (IOException e) {
             throw new RepresentationRenderException(
                     "can't transfer the resource", e);

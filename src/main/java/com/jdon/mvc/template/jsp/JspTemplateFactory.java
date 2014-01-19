@@ -22,4 +22,8 @@ public class JspTemplateFactory implements TemplateFactory {
         log.info("JspTemplateFactory init ok.");
     }
 
+    @Override
+    public String getSuffix() {
+        return "jsp";
+    }
 }

@@ -22,8 +22,6 @@ import java.util.Map;
 
 public class Html implements Represent {
 
-    public static final String TEMPLATE_SUFFIX = "suffix";
-
     //是否导入请求中设置的属性
     public static final String EXPORTREQUEST = "exportRequest?";
 
@@ -33,6 +31,7 @@ public class Html implements Represent {
     protected String path;
 
     protected Map<String, Object> model;
+
 
     public Html(String path) {
         this.path = path;
@@ -50,13 +49,17 @@ public class Html implements Represent {
         this.model.put(modelKey, modelValue);
     }
 
+    public Html addModel(String key, Object model) {
+        this.model.put(key, model);
+        return this;
+    }
+
     @Override
     public void render(FrameWorkContext fc) throws RepresentationRenderException {
         try {
             TemplateFactory concreteTemplateFactory = fc.getTemplateManager().getConcreteTemplateFactory();
-            String configItem = fc.getConfigItem(TEMPLATE_SUFFIX);
-            if (StringUtils.isNotEmpty(configItem) && path.lastIndexOf(".") == -1) {
-                path = path + "." + configItem;
+            if (path.lastIndexOf(".") == -1) {
+                path = path + "." + concreteTemplateFactory.getSuffix();
             }
 
             if (TypeUtil.boolTrue(fc.getConfigItem(EXPORTREQUEST))) {

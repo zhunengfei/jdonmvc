@@ -29,4 +29,8 @@ public class FreemarkerTemplateFactory implements TemplateFactory {
         return new FreemarkerTemplate(t);
     }
 
+    @Override
+    public String getSuffix() {
+        return "ftl";
+    }
 }

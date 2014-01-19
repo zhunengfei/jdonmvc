@@ -32,4 +32,8 @@ public class VelocityTemplateFactory implements TemplateFactory {
         }
     }
 
+    @Override
+    public String getSuffix() {
+        return "vm";
+    }
 }
