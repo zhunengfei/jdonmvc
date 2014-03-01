@@ -5,6 +5,7 @@ import com.jdon.mvc.http.WebRequest;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * web编程的环境
@@ -36,6 +37,10 @@ public class Env {
 
     public static WebRequest req() {
         return get().getReq();
+    }
+
+    public static HttpSession session() {
+        return req().getSession();
     }
 
     public static HttpServletResponse res() {

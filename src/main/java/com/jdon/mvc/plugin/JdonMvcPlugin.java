@@ -1,6 +1,6 @@
 package com.jdon.mvc.plugin;
 
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 
 import javax.servlet.ServletContext;
 
@@ -11,7 +11,7 @@ import javax.servlet.ServletContext;
  */
 public interface JdonMvcPlugin {
 
-    void init(FrameWorkContext fc);
+    void init(ComponentHolder holder);
 
     void dispose(ServletContext servletContext);
 }

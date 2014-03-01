@@ -2,7 +2,7 @@ package com.jdon.mvc.engine;
 
 import com.jdon.mvc.Constant;
 import com.jdon.mvc.core.FlowContext;
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 import com.jdon.mvc.http.RequestTargetInfo;
 
 import java.util.HashMap;
@@ -11,12 +11,12 @@ import java.util.Map;
 
 public class DefaultFlowContext implements FlowContext {
 
-	private FrameWorkContext fc;
+	private ComponentHolder holder;
 
 	private Map<String, Object> flashMap;
 
-	public DefaultFlowContext(FrameWorkContext fc) {
-		this.fc = fc;
+	public DefaultFlowContext(ComponentHolder holder) {
+		this.holder = holder;
 		this.flashMap = new HashMap<String, Object>();
 	}
 
@@ -36,8 +36,8 @@ public class DefaultFlowContext implements FlowContext {
 		return flashMap.get(Constant.RESOURCE_INSTANCE);
 	}
 
-	public FrameWorkContext fwContext() {
-		return fc;
+	public ComponentHolder fwContext() {
+		return holder;
 	}
 
 	@Override

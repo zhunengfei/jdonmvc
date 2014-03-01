@@ -2,7 +2,7 @@ package com.jdon.mvc.converter;
 
 /**
  * 绑定异常，发生在框架试图绑定请求中的数据到java类型的时候
- * User: Asion
+ * User: oojdon
  * Date: 13-6-21
  * Time: 下午2:00
  */

@@ -24,15 +24,15 @@ public class FlowDispatcher implements Dispatcher {
 
     private final Log LOG = LogFactory.getLog(FlowDispatcher.class);
 
-    private FrameWorkContext fc;
+    private ComponentHolder holder;
 
-    public FlowDispatcher(FrameWorkContext fc) {
-        this.fc = fc;
+    public FlowDispatcher(ComponentHolder holder) {
+        this.holder = holder;
     }
 
     @Override
-    public FrameWorkContext getFc() {
-        return fc;
+    public ComponentHolder getFc() {
+        return holder;
     }
 
 
@@ -44,11 +44,11 @@ public class FlowDispatcher implements Dispatcher {
      */
     public void dispatch() throws ServletException {
 
-        FlowContext ic = new DefaultFlowContext(fc);
+        FlowContext ic = new DefaultFlowContext(holder);
 
         LOG.info(">>>Begin dispatch the request to JdonMVC's process flow");
 
-        ExceptionResolver exceptionResolver = fc.getExceptionResolver();
+        ExceptionResolver exceptionResolver = holder.getExceptionResolver();
 
         try {
             new RequestResponseFlow().begin(ic);
@@ -58,7 +58,7 @@ public class FlowDispatcher implements Dispatcher {
                 try {
                     Represent represent = exceptionResolver.resolveActionException(Env.req(), Env.res(), target.getHandler(), e);
                     if (represent != null) {
-                        represent.render(fc);
+                        represent.render(holder);
                     }
                 } catch (RepresentationRenderException rrx) {
                     throw new ServletException(rrx);
@@ -72,7 +72,7 @@ public class FlowDispatcher implements Dispatcher {
                 try {
                     Represent represent = exceptionResolver.resolveBindingException(Env.req(), Env.res(), target.getHandler(), e);
                     if (represent != null) {
-                        represent.render(fc);
+                        represent.render(holder);
                     }
                 } catch (RepresentationRenderException rrx) {
                     throw new ServletException(rrx);
@@ -86,7 +86,7 @@ public class FlowDispatcher implements Dispatcher {
                 try {
                     Represent represent = exceptionResolver.resolveUploadException(Env.req(), Env.res(), target.getHandler(), e);
                     if (represent != null) {
-                        represent.render(fc);
+                        represent.render(holder);
                     }
                 } catch (RepresentationRenderException rrx) {
                     throw new ServletException(rrx);
@@ -103,11 +103,11 @@ public class FlowDispatcher implements Dispatcher {
 
     public void destroy() {
         LOG.info("Destroy dispatcher,Destroy the framework context");
-        IocProvider iocProvider = fc.getIocProvider();
+        IocProvider iocProvider = holder.getIocProvider();
         if (iocProvider != null && iocProvider instanceof JdonProvider) {
-            ((JdonProvider) iocProvider).getCss().destroyed(new ServletContextWrapper(fc.getServletContext()));
+            ((JdonProvider) iocProvider).getCss().destroyed(new ServletContextWrapper(holder.getServletContext()));
         }
-        fc.getPluginManager().dispose(fc.getServletContext());
-        fc = null;
+        holder.getPluginManager().dispose(holder.getServletContext());
+        holder = null;
     }
 }

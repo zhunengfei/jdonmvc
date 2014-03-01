@@ -44,7 +44,7 @@ public class RestFilter implements Filter {
 
     private Dispatcher dispatcher;
 
-    //默认对请求和进行编码
+    //默认对请求和响应进行编码
     public static final String ENCODING = "UTF-8";
 
 

@@ -1,7 +1,7 @@
 package com.jdon.mvc.represent;
 
 import com.jdon.mvc.core.Env;
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -18,7 +18,7 @@ public class File implements Represent {
 	}
 
 	@Override
-	public void render(FrameWorkContext fc) throws RepresentationRenderException {
+	public void render(ComponentHolder holder) throws RepresentationRenderException {
 		if (file == null || !file.isFile() || file.length() > Integer.MAX_VALUE) {
 			try {
 				Env.res().sendError(HttpServletResponse.SC_NOT_FOUND);

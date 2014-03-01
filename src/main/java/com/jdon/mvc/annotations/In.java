@@ -14,7 +14,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * default this annotation will mark some fields should be set service
  * which managed by JdonFrameWork.
  * 表示调用一个IOC容器管理的bean,默认调用Jdon管理的bean
- * 开发人员可以通过web.xml中扩展或者配置其他容器
  *
  * @author oojdon
  */

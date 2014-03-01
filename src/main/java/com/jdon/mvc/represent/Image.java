@@ -1,7 +1,7 @@
 package com.jdon.mvc.represent;
 
 import com.jdon.mvc.core.Env;
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,7 +22,7 @@ public class Image implements Represent {
     }
 
     @Override
-    public void render(FrameWorkContext fc) throws RepresentationRenderException {
+    public void render(ComponentHolder holder) throws RepresentationRenderException {
     	Env.res().setContentType(type);
 		long d = System.currentTimeMillis();
 		Env.res().addDateHeader("Last-Modified", d);

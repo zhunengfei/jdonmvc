@@ -1,6 +1,6 @@
 package com.jdon.mvc.http;
 
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 import com.jdon.mvc.util.TypeUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,12 +27,12 @@ public class WebRequest extends HttpServletRequestWrapper {
     private List<FormFile> formFileList = new LinkedList<FormFile>();
 
 
-    public WebRequest(HttpServletRequest request, FrameWorkContext fc) {
+    public WebRequest(HttpServletRequest request, ComponentHolder holder) {
         super(request);
         this.request = request;
         this.parameters = new RequestParameters(request.getParameterMap());
 
-        if (TypeUtil.boolTrue(fc.getConfigItem(TRIM_FORM))) {
+        if (TypeUtil.boolTrue(holder.getConfigItem(TRIM_FORM))) {
             parameters.trimAllParamValue();
         }
     }

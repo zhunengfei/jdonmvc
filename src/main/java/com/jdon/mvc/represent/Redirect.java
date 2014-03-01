@@ -1,7 +1,7 @@
 package com.jdon.mvc.represent;
 
 import com.jdon.mvc.core.Env;
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ public class Redirect implements Represent {
     }
 
     @Override
-    public void render(FrameWorkContext fc) throws RepresentationRenderException {
+    public void render(ComponentHolder holder) throws RepresentationRenderException {
 
         try {
             Env.res().sendRedirect(Env.req().getContextPath() + url);

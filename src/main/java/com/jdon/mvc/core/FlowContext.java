@@ -16,7 +16,7 @@ public interface FlowContext {
 	
 	Object javaObject();
 	
-	FrameWorkContext fwContext();
+	ComponentHolder fwContext();
 	
 	Map<String, Object> flashMap();
 	

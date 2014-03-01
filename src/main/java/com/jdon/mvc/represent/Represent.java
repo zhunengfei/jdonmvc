@@ -1,6 +1,6 @@
 package com.jdon.mvc.represent;
 
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 
 /**
  * 一种表示，这是REST中的概念，资源通过某种表示传递到客户端 比如Json,Atom,通常用HTML发到浏览器供人浏览，要发给机器使用就用
@@ -11,6 +11,6 @@ import com.jdon.mvc.core.FrameWorkContext;
  */
 public interface Represent {
 
-	void render(FrameWorkContext fc) throws RepresentationRenderException;
+	void render(ComponentHolder holder) throws RepresentationRenderException;
 
 }

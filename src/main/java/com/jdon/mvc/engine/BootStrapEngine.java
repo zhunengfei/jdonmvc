@@ -8,7 +8,10 @@ import com.jdon.mvc.config.Scanner;
 import com.jdon.mvc.core.*;
 import com.jdon.mvc.ioc.JdonProvider;
 import com.jdon.mvc.plugin.JdonMvcPlugin;
-import com.jdon.mvc.template.TemplateManager;
+import com.jdon.mvc.template.TemplateFactory;
+import com.jdon.mvc.template.freemarker.FreemarkerTemplateFactory;
+import com.jdon.mvc.template.jsp.JspTemplateFactory;
+import com.jdon.mvc.template.velocity.VelocityTemplateFactory;
 import com.jdon.mvc.util.ClassUtil;
 import com.jdon.mvc.util.ReflectionUtil;
 import com.jdon.mvc.util.TypeUtil;
@@ -35,8 +38,12 @@ public class BootStrapEngine {
     //是否启动Jdon容器，框架的默认配置是启动的
     private final static String INIT_JDON = "initJdon?";
 
+    private final static String USE_VELOCITY = "velocity?";
+    private final static String USE_FREEMARKER = "freemarker??";
 
-    public FrameWorkContext bootStrap(final ServletContext servletContext) {
+
+
+    public ComponentHolder bootStrap(final ServletContext servletContext) {
 
         LOG.info("Begin initial core component of framework.");
 
@@ -46,6 +53,62 @@ public class BootStrapEngine {
 
         Properties props = new Properties();
 
+        initConfigProp(props);
+
+        ComponentHolder holder = new ComponentHolder(servletContext);
+        holder.setResourceManager(resourceManager);
+        holder.setConverterManager(converterManager);
+
+        Class<ExceptionResolver> exh = (Class<ExceptionResolver>) Scanner.scanExceptionHandlerClass(servletContext);
+        if (exh != null) {
+            holder.setExceptionResolver((ExceptionResolver) ClassUtil.instance(exh));
+        }
+
+        List<Class<?>> joinList = Scanner.scanInterceptorClass(servletContext);
+        for (Class<?> join : joinList) {
+            holder.addResourceInterceptor((ResourceInterceptor) ClassUtil.instance(join));
+        }
+
+        if (TypeUtil.boolTrue(props.getProperty(INIT_JDON))) {
+            holder.setBeanProvider(initJdonIoc(servletContext));
+        }
+
+        TemplateFactory templateFactory = new JspTemplateFactory();
+        templateFactory.init(servletContext);
+
+        if (TypeUtil.boolTrue(props.getProperty(USE_VELOCITY))) {
+            LOG.warn("jsp template will be replaced by velocity");
+            templateFactory = new VelocityTemplateFactory();
+            templateFactory.init(servletContext);
+        }
+
+        if (TypeUtil.boolTrue(props.getProperty(USE_FREEMARKER))) {
+            LOG.warn("jsp template will be replaced by freemarker");
+            templateFactory = new FreemarkerTemplateFactory();
+            templateFactory.init(servletContext);
+        }
+
+        holder.setTemplateFactory(templateFactory);
+
+        holder.setProps(props);
+
+        LOG.info("begin scan plugin");
+
+        List<Class<?>> plugins = Scanner.scanPluginClass(servletContext);
+        PluginManager pluginManager = holder.getPluginManager();
+
+        for (Class<?> plugin : plugins) {
+            JdonMvcPlugin plugInstance = (JdonMvcPlugin) ReflectionUtil.instantiate(plugin);
+            pluginManager.register(plugInstance);
+        }
+
+        pluginManager.init(holder);
+
+        return holder;
+
+    }
+
+    private void initConfigProp(Properties props) {
         try {
             InputStream defaultConfig = ClassUtil.getLoader().getResourceAsStream("com/jdon/mvc/config/DefaultConfig.properties");
             try {
@@ -72,42 +135,6 @@ public class BootStrapEngine {
         } catch (IOException e) {
             LOG.warn("parse framework config fail", e);
         }
-
-        TemplateManager templateManager = new TemplateManager(servletContext);
-
-        FrameWorkContext frameWorkContext = new FrameWorkContext(converterManager, resourceManager, templateManager, servletContext);
-
-        Class<ExceptionResolver> exh = (Class<ExceptionResolver>) Scanner.scanExceptionHandlerClass(servletContext);
-        if (exh != null) {
-            frameWorkContext.setExceptionResolver((ExceptionResolver) ClassUtil.instance(exh));
-        }
-
-        List<Class<?>> joinList = Scanner.scanInterceptorClass(servletContext);
-        for (Class<?> join : joinList) {
-            frameWorkContext.addResourceInterceptor((ResourceInterceptor) ClassUtil.instance(join));
-        }
-
-        if (TypeUtil.boolTrue(props.getProperty(INIT_JDON))) {
-            frameWorkContext.setBeanProvider(initJdonIoc(servletContext));
-        }
-
-        frameWorkContext.setProps(props);
-
-        LOG.info("begin scan plugin");
-
-        List<Class<?>> plugins = Scanner.scanPluginClass(servletContext);
-        PluginManager pluginManager = frameWorkContext.getPluginManager();
-
-        for (Class<?> plugin : plugins) {
-            JdonMvcPlugin plugInstance = (JdonMvcPlugin) ReflectionUtil.instantiate(plugin);
-            pluginManager.register(plugInstance);
-        }
-
-        pluginManager.init(frameWorkContext);
-
-
-        return frameWorkContext;
-
     }
 
 

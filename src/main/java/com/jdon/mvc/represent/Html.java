@@ -1,12 +1,10 @@
 package com.jdon.mvc.represent;
 
 import com.jdon.mvc.core.Env;
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 import com.jdon.mvc.template.TemplateFactory;
 import com.jdon.mvc.util.TypeUtil;
-import org.apache.commons.lang.StringUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -55,14 +53,14 @@ public class Html implements Represent {
     }
 
     @Override
-    public void render(FrameWorkContext fc) throws RepresentationRenderException {
+    public void render(ComponentHolder holder) throws RepresentationRenderException {
         try {
-            TemplateFactory concreteTemplateFactory = fc.getTemplateManager().getConcreteTemplateFactory();
+            TemplateFactory concreteTemplateFactory = holder.getTemplateFactory();
             if (path.lastIndexOf(".") == -1) {
                 path = path + "." + concreteTemplateFactory.getSuffix();
             }
 
-            if (TypeUtil.boolTrue(fc.getConfigItem(EXPORTREQUEST))) {
+            if (TypeUtil.boolTrue(holder.getConfigItem(EXPORTREQUEST))) {
                 for (Enumeration en = Env.req().getAttributeNames(); en.hasMoreElements(); ) {
                     String attribute = (String) en.nextElement();
                     Object attributeValue = Env.req().getAttribute(attribute);
@@ -70,7 +68,7 @@ public class Html implements Represent {
                 }
             }
 
-            if (TypeUtil.boolTrue(fc.getConfigItem(EXPORTSESSION))) {
+            if (TypeUtil.boolTrue(holder.getConfigItem(EXPORTSESSION))) {
                 HttpSession session = Env.req().getSession(false);
                 if (session != null) {
                     for (Enumeration en = session.getAttributeNames(); en.hasMoreElements(); ) {

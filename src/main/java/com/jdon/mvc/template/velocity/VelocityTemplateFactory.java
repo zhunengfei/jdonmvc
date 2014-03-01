@@ -14,7 +14,7 @@ public class VelocityTemplateFactory implements TemplateFactory {
 
     private final Log LOG = LogFactory.getLog(VelocityTemplateFactory.class);
 
-    VelocityEngine ve = new VelocityEngine();
+    private VelocityEngine ve = new VelocityEngine();
 
     public Template loadTemplate(String path) throws Exception {
         LOG.debug("Load Velocity template '" + path + "'.");

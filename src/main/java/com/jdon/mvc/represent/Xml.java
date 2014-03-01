@@ -1,7 +1,7 @@
 package com.jdon.mvc.represent;
 
 import com.jdon.mvc.core.Env;
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -28,7 +28,7 @@ public class Xml implements Represent {
     }
 
     @Override
-    public void render(FrameWorkContext fc) throws RepresentationRenderException {
+    public void render(ComponentHolder holder) throws RepresentationRenderException {
         Env.res().setContentType(TYPE);
         try {
             JAXBContext context = JAXBContext.newInstance(type);

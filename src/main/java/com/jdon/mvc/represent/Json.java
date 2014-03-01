@@ -1,7 +1,7 @@
 package com.jdon.mvc.represent;
 
 import com.jdon.mvc.core.Env;
-import com.jdon.mvc.core.FrameWorkContext;
+import com.jdon.mvc.core.ComponentHolder;
 import com.jdon.mvc.util.JsonUtil;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ public class Json implements Represent {
     }
 
     @Override
-    public void render(FrameWorkContext fc) throws RepresentationRenderException {
+    public void render(ComponentHolder holder) throws RepresentationRenderException {
         HttpServletResponse res = Env.res();
         res.setContentType(TYPE + ";charset=UTF-8");
         try {

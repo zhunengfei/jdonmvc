@@ -1,25 +1,19 @@
 package com.jdon.mvc.core;
 
-import com.jdon.mvc.template.TemplateManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.jdon.mvc.template.TemplateFactory;
 
 import javax.servlet.ServletContext;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-public class FrameWorkContext {
+public class ComponentHolder {
 
-    private final static Log LOG = LogFactory.getLog(FrameWorkContext.class);
+    private ConverterManager converterManager;
 
-    private final ConverterManager converterManager;
-
-    private final ResourceManager resourceManager;
+    private ResourceManager resourceManager;
 
     private IocProvider beanProvider;
-
-    private final TemplateManager templateManager;
 
     private final PluginManager pluginManager = new PluginManager();
 
@@ -29,20 +23,17 @@ public class FrameWorkContext {
 
     private List<ResourceInterceptor> resourceInterceptorList = new LinkedList<ResourceInterceptor>();
 
+    private TemplateFactory templateFactory;
+
     //框架配置
     private Properties props = new Properties();
 
+    public ComponentHolder(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 
     public void addResourceInterceptor(ResourceInterceptor interceptor) {
         this.resourceInterceptorList.add(interceptor);
-    }
-
-    public FrameWorkContext(ConverterManager converterManager,
-                            ResourceManager resourceManager, TemplateManager templateManager, ServletContext servletContext) {
-        this.converterManager = converterManager;
-        this.resourceManager = resourceManager;
-        this.templateManager = templateManager;
-        this.servletContext = servletContext;
     }
 
     public ConverterManager getConverterManager() {
@@ -59,10 +50,6 @@ public class FrameWorkContext {
 
     public void setBeanProvider(IocProvider beanProvider) {
         this.beanProvider = beanProvider;
-    }
-
-    public TemplateManager getTemplateManager() {
-        return templateManager;
     }
 
     public ExceptionResolver getExceptionResolver() {
@@ -91,5 +78,21 @@ public class FrameWorkContext {
 
     public List<ResourceInterceptor> getResourceInterceptorList() {
         return resourceInterceptorList;
+    }
+
+    public void setConverterManager(ConverterManager converterManager) {
+        this.converterManager = converterManager;
+    }
+
+    public void setResourceManager(ResourceManager resourceManager) {
+        this.resourceManager = resourceManager;
+    }
+
+    public TemplateFactory getTemplateFactory() {
+        return templateFactory;
+    }
+
+    public void setTemplateFactory(TemplateFactory templateFactory) {
+        this.templateFactory = templateFactory;
     }
 }

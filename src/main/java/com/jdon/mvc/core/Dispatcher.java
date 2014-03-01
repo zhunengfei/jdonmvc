@@ -13,7 +13,7 @@ public interface Dispatcher {
 
 	void dispatch() throws ServletException;
 
-    FrameWorkContext getFc();
+    ComponentHolder getFc();
 
     void destroy();
 

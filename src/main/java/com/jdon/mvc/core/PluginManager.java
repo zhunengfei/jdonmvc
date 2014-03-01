@@ -23,9 +23,9 @@ public class PluginManager {
         return plugins;
     }
 
-    public void init(FrameWorkContext fc) {
+    public void init(ComponentHolder holder) {
         for (JdonMvcPlugin plugin : this.plugins) {
-            plugin.init(fc);
+            plugin.init(holder);
         }
     }
 

@@ -6,7 +6,8 @@ import com.jdon.mvc.rs.java.Handler;
 import java.util.regex.Pattern;
 
 /**
- * 拦截器
+ * 资源拦截器
+ * 可以用来在不行资源处理前和处理后做些事情
  * <p/>
  * User: Asion
  * Date: 13-6-9
