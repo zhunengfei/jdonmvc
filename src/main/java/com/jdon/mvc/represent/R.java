@@ -35,7 +35,7 @@ public class R {
         return new Text(content);
     }
 
-    protected static Html vm(String vm) {
+    protected static Html page(String vm) {
         return new Html(vm);
     }
 
