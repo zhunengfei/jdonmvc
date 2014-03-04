@@ -60,6 +60,6 @@ run the demo
 * install maven
 * git clone https://github.com/oojdon/mvcdemo.git
 * cd mvcdemo, then input mvn jetty:run-exploded
-* baby go http://localhost:9090/mvcdemo/
+* baby go http://localhost:8080/mvcdemo/
 
 
