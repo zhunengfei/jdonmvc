@@ -52,6 +52,7 @@ write controller like this:
 run the demo
 --------------------------
 
+* install git,jdk
 * install maven
 * git clone https://github.com/oojdon/mvcdemo.git
 * cd mvcdemo, then input mvn jetty:run-exploded
