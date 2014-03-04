@@ -1,14 +1,18 @@
-jdonmvc
+why this framework
 =======
 
-Java web framework working on jdon and spring
+working on jdon and spring.
+jdon is a DDD(domain driven design) framework
 
-this framework's target is making web developing easy and simple, web programing just like FP, the process just is function
+this framework's target is making web developing easy and simple.
+
+web programing just like FP, the process just is function.
+
 in this framework,you woude thking the controller as the set of function that is cloure when runing.
 
-write controller like this:
+Now,Write controller
 -----------------------
-    public class TestController {
+    public class Controller {
 
     private static DB db = new DB();
 
