@@ -53,10 +53,8 @@ run the demo
 --------------------------
 
 * install maven
-* checkout the mvcdemo code, the address is [mvcdemo][]
-* go to maven home, then input mvn jetty:run-exploded
-* open your browser,go http://localhost:8080/mvcdemo/
-
-[mvcdemo]:https://github.com/oojdon/mvcdemo
+* git clone https://github.com/oojdon/mvcdemo.git
+* cd mvcdemo, then input mvn jetty:run-exploded
+* baby go http://localhost:9090/mvcdemo/
 
 
