@@ -40,8 +40,7 @@ public class WebRequest extends HttpServletRequestWrapper {
 
     public void cleanupMultipart() {
         for (FormFile formFile : formFileList) {
-            FormFileImp formFileImp = (FormFileImp) formFile;
-            formFileImp.getFileItem().delete();
+            formFile.clear();
         }
     }
 

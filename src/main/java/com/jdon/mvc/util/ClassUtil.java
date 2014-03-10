@@ -20,6 +20,18 @@ public class ClassUtil {
         }
     }
 
+
+    public static Object instance(String name) {
+
+        try {
+            Class<?> aClass = Class.forName(name);
+            return aClass.newInstance();
+        } catch (Exception e) {
+
+            throw new ConfigException(e);
+        }
+    }
+
     /**
      * 得到类加载器
      *

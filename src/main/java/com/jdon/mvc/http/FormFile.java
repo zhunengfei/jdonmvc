@@ -60,4 +60,7 @@ public interface FormFile {
      */
     void transferTo(java.io.File file) throws IOException;
 
+
+    void clear();
+
 }
