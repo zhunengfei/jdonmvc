@@ -62,6 +62,20 @@ public class ReflectionUtil {
 		}
 		return list;
 	}
+
+    public static Method findSetter(Object current, String property) {
+        String methodName = SET_INITIALS + upperCaseFirstLetter(property);
+        for (Method m : current.getClass().getMethods()) {
+            if (m.getName().equals(methodName)) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    private static String upperCaseFirstLetter(String property) {
+        return Character.toUpperCase(property.charAt(0)) + property.substring(1);
+    }
 	
 	public static Map<String, Method> getGetters(Class<?> clazz) {
 		if (!Modifier.isPublic(clazz.getModifiers())) {

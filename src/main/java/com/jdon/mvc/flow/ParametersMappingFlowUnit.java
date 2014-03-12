@@ -4,14 +4,15 @@ import com.jdon.mvc.Constant;
 import com.jdon.mvc.converter.BindingException;
 import com.jdon.mvc.core.Env;
 import com.jdon.mvc.core.FlowContext;
-import com.jdon.mvc.http.ParameterKey;
 import com.jdon.mvc.http.RequestTargetInfo;
 import com.jdon.mvc.rs.java.Handler;
 import com.jdon.mvc.rs.java.MethodParameter;
+import com.jdon.mvc.util.ReflectionUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,41 +33,46 @@ public class ParametersMappingFlowUnit implements FlowUnit {
         Handler handler = target.getHandler();
 
         Map<String, String> pathParam = target.getPathParam();
-        for (Entry<String, String> parameter : pathParam.entrySet())
+        for (Entry<String, String> parameter : pathParam.entrySet()) {
             Env.req().setParameter(parameter.getKey(), parameter.getValue());
+        }
 
         Object[] args = new Object[handler.getMethodParameters().size()];
 
-        Map<MethodParameter, Map<String, Object>> methodValue = formKeyValueToJavaMethodParameter(Env.req().getParameterMap(), handler.getMethodParameters());
+        List<MethodParameter> methodParameters = handler.getMethodParameters();
 
-        ic.fwContext().getConverterManager().convert(methodValue, args);
+        Map<String, MethodParameter> methodParameterMap = new HashMap<String, MethodParameter>();
+        for (MethodParameter methodParameter : methodParameters) {
+            methodParameterMap.put(methodParameter.getName(), methodParameter);
+        }
+
+        Map<String, Object> parameterMap = Env.req().getParameterMap();
+
+        for (MethodParameter methodParameter : methodParameters) {
+            methodParameter.setValue(parameterMap.get(methodParameter.getName()));
+        }
+
+        ic.fwContext().getConverterManager().convert(methodParameters, args);
+
+        //如果参数中有字符.的key表示要映射到Map或者对象中，只处理两级
+        for (String key : parameterMap.keySet()) {
+            if (key.indexOf(".") != -1) {
+                String pName = key.split("\\.")[0];
+                MethodParameter methodParameter = methodParameterMap.get(pName);
+                if (methodParameter != null) {
+                    ic.fwContext().getConverterManager().doPathMapping(methodParameter, key, parameterMap.get(key));
+                    args[methodParameter.getPosition()] = methodParameter.getValue();
+                }
+            }
+        }
 
         ic.flashMap().put(Constant.ARGS_FOR_METHOD, args);
+
         LOG.info("the flow-unit of " + ParametersMappingFlowUnit.class.getName() + " finish");
     }
 
-    private Map<MethodParameter, Map<String, Object>> formKeyValueToJavaMethodParameter(
-            Map<String, Object> parameterMap,
-            List<MethodParameter> methodParameters) {
-        List<ParameterKey> parameters = new ArrayList<ParameterKey>();
-        for (String key : parameterMap.keySet())
-            parameters.add(new ParameterKey(key));
 
-        Map<MethodParameter, Map<String, Object>> methodValue = new HashMap<MethodParameter, Map<String, Object>>();
 
-        for (MethodParameter methodParameter : methodParameters) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            for (ParameterKey parameter : parameters) {
-                if (parameter.matches(methodParameter.getName())) {
-                    map.put(parameter.getKey(), parameterMap.get(parameter
-                            .getKey()));
-                    methodValue.put(methodParameter, map);
-                }
-            }
 
-        }
-
-        return methodValue;
-    }
 
 }

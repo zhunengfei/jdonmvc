@@ -31,11 +31,22 @@ public class MethodParameter {
      */
     private final int position;
 
+    //参数值
+    private Object value;
+
     public MethodParameter(Class<?> type, Type genericType, String name, int position) {
         this.type = type;
         this.genericType = genericType;
         this.name = name;
         this.position = position;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     public Class<?> getType() {
@@ -54,27 +65,4 @@ public class MethodParameter {
         return position;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MethodParameter that = (MethodParameter) o;
-
-        if (position != that.position) return false;
-        if (!genericType.equals(that.genericType)) return false;
-        if (!name.equals(that.name)) return false;
-        if (!type.equals(that.type)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = type.hashCode();
-        result = 31 * result + genericType.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + position;
-        return result;
-    }
 }

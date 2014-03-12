@@ -5,18 +5,15 @@ import com.jdon.mvc.http.FormFile;
 import com.jdon.mvc.rs.java.MethodParameter;
 import com.jdon.mvc.rs.java.SettingException;
 import com.jdon.mvc.util.ReflectionUtil;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,12 +21,6 @@ import java.util.Map;
  * type can match the java method.
  * <p/>
  * 方法参数目前支持简单的原生类型绑定,String,BigDecimal,BigInteger,FormFile也支持
- * <p/>
- * 但是如果是用户自己定义类型，比如User，直接用apache commons beanUtils来进行绑定，语法是
- * <p/>
- * user.name
- * user[index]  数组和list
- * user(key)
  *
  * @author oojdon
  */
@@ -71,43 +62,45 @@ public class DefaultConverterManager implements ConverterManager {
         converterTypes.put(String.class, new StringConverter());
         converterTypes.put(BigDecimal.class, new BigDecimalConverter());
         converterTypes.put(BigInteger.class, new BigIntegerConverter());
+
         converterTypes.put(FormFile.class, new SingleFormFileConverter());
         converterTypes.put(Enum.class, new EnumConverter());
 
     }
 
-    public Object[] convert(Map<MethodParameter, Map<String, Object>> methodValue, Object[] args) throws BindingException {
+    public Object[] convert(List<MethodParameter> methodParameters, Object[] args) throws BindingException {
 
-        for (Map.Entry<MethodParameter, Map<String, Object>> entry : methodValue.entrySet()) {
-
-            Map<String, Object> map = entry.getValue();// 形参对应的参数
-            MethodParameter methodParameter = entry.getKey();// 形参
+        for (MethodParameter methodParameter : methodParameters) {
 
             Class<?> originalType = methodParameter.getType();// 形参类型
-            Object value = map.get(methodParameter.getName());// 形参值
+            Object value = methodParameter.getValue();// 形参值
 
             // 数组
             if (originalType.isArray()) {
-                args[methodParameter.getPosition()] = convertArray(originalType, value, map);
+                Class<?> type = originalType.getComponentType();
+                Object array = Array.newInstance(type, FormValueHelper.arrayValue(value).length);
+                for (int i = 0; i < FormValueHelper.arrayValue(value).length; i++) {
+                    Array.set(array, i, convert(type, value));
+                }
+                args[methodParameter.getPosition()] = array;
             }
-
-            //Hash todo
 
             //集合
             else if (Collection.class.isAssignableFrom(originalType)) {
                 Class<?> targetType = extractTargetFromCollection(methodParameter.getGenericType());
                 Collection converted = (Collection) ReflectionUtil.instantiateCollection(originalType);
                 for (String item : FormValueHelper.arrayValue(value)) {
-                    converted.add(convert(targetType, item, map));
+                    converted.add(convert(targetType, item));
                 }
                 args[methodParameter.getPosition()] = converted;
             }
 
-            //单个对象，原生或者包装，或者用户自定义类
+            //单个对象，原生或者包装或者枚举或者FormFile
             else {
-                args[methodParameter.getPosition()] = convert(
-                        originalType, value, map);
+                args[methodParameter.getPosition()] = convert(originalType, value);
             }
+
+
         }
 
         return args;
@@ -123,9 +116,43 @@ public class DefaultConverterManager implements ConverterManager {
     }
 
 
-    private Object convert(Class<?> clazz, Object value, Map<String, Object> map) throws BindingException {
+    //map和对象的映射
+    public void doPathMapping(MethodParameter methodParameter, String key, Object value) {
+        if (methodParameter.getType() == Map.class) {
+            if (methodParameter.getValue() != null) {
+                Map map = (HashMap) methodParameter.getValue();
+                map.put(key.split("\\.")[1], value);
+            } else {
+                Map map = new HashMap();
+                map.put(key.split("\\.")[1], value);
+                methodParameter.setValue(map);
+            }
+        } else {
+            try {
+                if (methodParameter.getValue() == null) {
+                    Object instance = methodParameter.getType().newInstance();
+                    methodParameter.setValue(instance);
+                }
+                Method method = ReflectionUtil.findSetter(methodParameter.getValue(), key.split("\\.")[1]);
+                Class<?> setType = method.getParameterTypes()[0];
+                try {
+                    method.invoke(methodParameter.getValue(), convert(setType,value));
+                } catch (InvocationTargetException e) {
+                    throw new BindingException(e);
+                }
+            } catch (InstantiationException e) {
+                throw new BindingException(e);
+            } catch (IllegalAccessException e) {
+                throw new BindingException(e);
+            }
+        }
+    }
+
+
+    public Object convert(Class<?> clazz, Object value) throws BindingException {
 
         try {
+
             //枚举类型手动判断
             if (clazz.isEnum()) {
                 return converterTypes.get(Enum.class).convert(clazz, value);
@@ -134,33 +161,15 @@ public class DefaultConverterManager implements ConverterManager {
             if (converterTypes.get(clazz) != null) {
                 TypeConverter<?> c = converterTypes.get(clazz);
                 return c.convert(clazz, value);
-            } else {
-                return convertObject(clazz, map);
             }
+
+            return null;
+
         } catch (Exception e) {
             LOG.error("type convert occur exception", e);
             throw new BindingException(e);
         }
     }
 
-    private Object convertArray(Class<?> clazz, Object value,
-                                Map<String, Object> map) throws BindingException {
-        Class<?> type = clazz.getComponentType();
-        Object converted = Array.newInstance(type, FormValueHelper.arrayValue(value).length);
-        for (int i = 0; i < FormValueHelper.arrayValue(value).length; i++) {
-            Array.set(converted, i, convert(type, value, map));
-        }
-        return converted;
-    }
 
-    private Object convertObject(Class<?> clazz, Map<String, Object> map) throws BindingException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        Object instance = clazz.newInstance();
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            Object value = entry.getValue();
-            String key = entry.getKey();
-            String property = key.substring(key.indexOf(".") + 1);
-            BeanUtils.setProperty(instance, property, value);
-        }
-        return instance;
-    }
 }

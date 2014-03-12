@@ -5,11 +5,13 @@ import com.jdon.mvc.http.RequestBody;
 import com.jdon.mvc.represent.Html;
 import com.jdon.mvc.represent.Represent;
 import moc.*;
+import org.junit.Test;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Asion
@@ -23,6 +25,7 @@ public class Controller {
 
     @In
     private RequestBody body;
+
 
     @In("helloService")
     private Hello helloService;
@@ -57,7 +60,8 @@ public class Controller {
     }
 
 
-    public static void main(String[] args) throws ServletException, IOException {
+    @Test
+    public void testController() throws ServletException, IOException {
 
         RestFilter filter = new RestFilter();
         MockFilterConfig cfg = new MockFilterConfig();
@@ -68,7 +72,9 @@ public class Controller {
         MockFilterChain chain = new MockFilterChain();
         MockRequest userRequest = new MockRequest(servletContext, "Get", "/");
         userRequest.addParam("user.name", "谢中生");
+        userRequest.addParam("user.email", "abcde@google.com");
         filter.doFilter(userRequest, new MockResponse(), chain);
+
         filter.doFilter(new MockRequest(servletContext, "Get", "/blog/3"), new MockResponse(), chain);
         filter.doFilter(new MockRequest(servletContext, "Get", "/blog/3/sub/4"), new MockResponse(), chain);
 

@@ -25,12 +25,15 @@
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
         </dependency>
-
         <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.6.0.GA</version>
         </dependency>
+
+
+
+
         <dependency>
             <groupId>freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -41,16 +44,14 @@
             <artifactId>velocity</artifactId>
             <version>1.6</version>
         </dependency>
+
+
+
+
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.6.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.8.3</version>
         </dependency>
 
         <dependency>

@@ -1,1 +1,2 @@
-hello $user.name
+hello $user.name  $user.email
+
