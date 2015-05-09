@@ -16,10 +16,11 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.jdon</groupId>
+            <groupId>org.jdon</groupId>
             <artifactId>jdonframework</artifactId>
-            <version>6.6.4</version>
+            <version>6.8</version>
         </dependency>
+
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -32,8 +33,6 @@
         </dependency>
 
 
-
-
         <dependency>
             <groupId>freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -44,8 +43,6 @@
             <artifactId>velocity</artifactId>
             <version>1.6</version>
         </dependency>
-
-
 
 
         <dependency>
@@ -120,13 +117,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>jdon</id>
-            <url>https://github.com/banq/jdon-mvn-repo/raw/master/releases</url>
-        </repository>
-    </repositories>
 
 
 </project>
